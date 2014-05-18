@@ -1,8 +1,8 @@
-hoge
+SUL
 ====
 
 これは本番だよ！
 
-プロジェクト名はhogeだよ！
+プロジェクト名はSULだよ！
 
 Ruby On Railsで作るよ！
