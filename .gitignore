@@ -35,3 +35,7 @@ build/
 
 # add original
 Gemfile.lock
+db/development.sqlite3
+log/*
+bin/*
+db/test.sqlite3
