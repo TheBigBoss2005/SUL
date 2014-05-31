@@ -6,3 +6,5 @@ SUL
 プロジェクト名はSULだよ！
 
 Ruby On Railsで作るよ！
+
+hogeじゃないよ！
