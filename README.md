@@ -1,10 +1,11 @@
-SUL
+SUL (settle up later)
 ====
 
-これは本番だよ！
+このプロジェクトではTBB向けに割り勘情報を保存し、自動で計算してくれるWebアプリケーションを構築する事が目的です。
+プロジェクトではRuby on RailsでWebアプリを書いています。
 
-プロジェクト名はSUL(settle up later)だよ！
+CIについて
+====
 
-Ruby On Railsで作るよ！
-
-hogeじゃないよ！
+CIはTravis CIを使ってます。
+https://travis-ci.org/TheBigBoss2005/SUL 
