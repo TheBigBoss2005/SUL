@@ -1,7 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :user do
-    sequence(:name) { |n| "user_#{n}" }
+  factory :payment do
+    participant_id 1
+    price 1234
+    status false
   end
 end
