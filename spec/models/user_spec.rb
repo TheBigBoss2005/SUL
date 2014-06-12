@@ -25,49 +25,31 @@ describe User do
 
   describe 'when name includes' do
 
-    describe 'word' do
-      before { @user.name = 'a' }
-      it { should be_valid }
-    end
-
-    describe 'number' do
-      before { @user.name = '0' }
-      it { should be_valid }
-    end
-
-    describe 'kana' do
-      before { @user.name = 'あ' }
-      it { should be_valid }
-    end
-
-    describe 'half-kana' do
-      before { @user.name = 'ｱ' }
-      it { should be_valid }
-    end
-
-    describe "'-'" do
-      before { @user.name = '-' }
-      it { should be_valid }
-    end
-
-    describe "'\u30fc'" do
-      before { @user.name = 'ー' }
-      it { should be_valid }
-    end
-
-    describe 'SPACE' do
-      before { @user.name = 'a b' }
-      it { should be_valid }
-    end
-
-    describe 'SPACE(zenkaku)' do
-      before { @user.name = 'a　b' }
-      it { should be_valid }
+    describe 'approved symbol' do
+      %w(a あ ア ｱ 亜 0 ー / _ -).each do |w|
+        describe "'#{w}'" do
+          before { @user.name = w }
+          it { should be_valid }
+        end
+      end
     end
 
     describe 'non-approved symbol' do
-      before { @user.name = '%' }
-      it { should_not be_valid }
+      %w(% \\ < > \' \").each do |w|
+        describe "'#{w}'" do
+          before { @user.name = w }
+          it { should_not be_valid }
+        end
+      end
+    end
+
+    describe 'SPACE' do
+      %w(\  　).each do |w|
+        describe "'#{w}'" do
+          before { @user.name = 'a' + w + 'b' }
+          it { should be_valid }
+        end
+      end
     end
 
   end

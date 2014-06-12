@@ -39,54 +39,37 @@ describe Event do
   end
 
   %w(name memo).each do |column_name|
+
     describe "when #{column_name} includes" do
 
-      describe 'word' do
-        before { @event[column_name] = 'a' }
-        it { should be_valid }
-      end
-
-      describe 'number' do
-        before { @event[column_name] = '0' }
-        it { should be_valid }
-      end
-
-      describe 'kana' do
-        before { @event[column_name] = 'あ' }
-        it { should be_valid }
-      end
-
-      describe 'half-kana' do
-        before { @event[column_name] = 'ｱ' }
-        it { should be_valid }
-      end
-
-      describe "'-'" do
-        before { @event[column_name] = '-' }
-        it { should be_valid }
-      end
-
-      describe "'\u30fc'" do
-        before { @event[column_name] = 'ー' }
-        it { should be_valid }
-      end
-
-      describe 'SPACE' do
-        before { @event[column_name] = 'a b' }
-        it { should be_valid }
-      end
-
-      describe 'SPACE(zenkaku)' do
-        before { @event[column_name] = 'a　b' }
-        it { should be_valid }
+      describe 'approved symbol' do
+        %w(a あ ア ｱ 亜 0 ー / _ -).each do |w|
+          describe "'#{w}'" do
+            before { @event[column_name] = w }
+            it { should be_valid }
+          end
+        end
       end
 
       describe 'non-approved symbol' do
-        before { @event[column_name] = '%' }
-        it { should_not be_valid }
+        %w(% \\ < > \' \").each do |w|
+          describe "'#{w}'" do
+            before { @event[column_name] = w }
+            it { should_not be_valid }
+          end
+        end
       end
-    end
 
+      describe 'SPACE' do
+        %w(\  　).each do |w|
+          describe "'#{w}'" do
+            before { @event[column_name] = 'a' + w + 'b' }
+            it { should be_valid }
+          end
+        end
+      end
+
+    end
   end
 
   # date に関するテストはあとで考える
