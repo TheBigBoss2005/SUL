@@ -7,23 +7,31 @@ describe User do
 
   subject { @user }
 
-  it { should respond_to(:name) }
-  it { should respond_to(:participants) }
-  it { should respond_to(:items) }
+  specify { expect(subject).to respond_to(:name) }
+  specify { expect(subject).to respond_to(:participants) }
+  specify { expect(subject).to respond_to(:items) }
 
-  it { should be_valid }
+  describe User, '#nameが設定済の場合' do
+    specify 'validationに成功すること' do
+      expect(subject).to be_valid
+    end
+  end
 
-  describe 'nameが空の場合' do
+  describe User, '#name が空の場合' do
     before { @user.name = ' ' }
-    it { should_not be_valid }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 
-  describe 'nameの長さが20より長い場合' do
+  describe User, '#name の長さが20より長い場合' do
     before { @user.name = 'a' * 21 }
-    it { should_not be_valid }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 
-  describe 'nameに含まれる文字が' do
+  describe User, '#name に含まれる文字が' do
 
     describe "'<','>'以外の文字の場合" do
       %w(A あ 0 - = / _ \\ ? % " ').each do |w|
@@ -32,7 +40,7 @@ describe User do
             @user.name = w
             @user.save
           end
-          it 'そのまま保存されること' do
+          specify 'そのまま保存されること' do
             expect(@user.name).to eq(w)
           end
         end
@@ -44,7 +52,7 @@ describe User do
         @user.name = '<'
         @user.save
       end
-      it "'&lt;'に変換されること" do
+      specify "'&lt;'に変換されること" do
         expect(@user.name).to eq('&lt;')
       end
     end
@@ -54,7 +62,7 @@ describe User do
         @user.name = '>'
         @user.save
       end
-      it "'&gt;'に変換されること" do
+      specify "'&gt;'に変換されること" do
         expect(@user.name).to eq('&gt;')
       end
 
