@@ -12,7 +12,11 @@ class Item < ActiveRecord::Base
   private
 
   def escape_tag
-    memo.gsub!('<', '&lt;')
-    memo.gsub!('>', '&gt;')
+    tags = {
+      '<' => '&lt;',
+      '>' => '&gt;' }
+    tags.each do |key, val|
+      memo.gsub!(key , val)
+    end
   end
 end

@@ -8,7 +8,11 @@ class User < ActiveRecord::Base
   private
 
   def escape_tag
-    name.gsub!('<', '&lt;')
-    name.gsub!('>', '&gt;')
+    tags = {
+      '<' => '&lt;',
+      '>' => '&gt;' }
+    tags.each do |key, val|
+      name.gsub!(key , val)
+    end
   end
 end

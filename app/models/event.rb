@@ -9,16 +9,23 @@ class Event < ActiveRecord::Base
 
   validates :memo, presence: false, length: { maximum: 40 }
 
+  def formatted_date
+    if date.nil?
+      return nil
+    else
+      return DateTime.parse(date.to_s).strftime('%Y/%m/%d').to_s
+    end
+  end
+
   private
 
   def escape_tag
-    name.gsub!('<', '&lt;')
-    name.gsub!('>', '&gt;')
-    memo.gsub!('<', '&lt;')
-    memo.gsub!('>', '&gt;')
-  end
-
-  def conv_datetime
-    DateTime.strptime(date)
+    tags = {
+      '<' => '&lt;',
+      '>' => '&gt;' }
+    tags.each do |key, val|
+      name.gsub!(key , val)
+      memo.gsub!(key , val)
+    end
   end
 end

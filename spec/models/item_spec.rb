@@ -57,7 +57,7 @@ describe Item do
         @item_from_event.memo = '<'
         @item_from_event.save
       end
-      it "'&lt;'に変換されること" do 
+      it "'&lt;'に変換されること" do
         expect(@item_from_event.memo).to eq('&lt;')
       end
     end

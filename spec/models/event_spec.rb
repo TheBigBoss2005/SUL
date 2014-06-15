@@ -15,6 +15,7 @@ describe Event do
   it { should respond_to(:date) }
   it { should respond_to(:participants) }
   it { should respond_to(:items) }
+  it { should respond_to(:formatted_date) }
 
   it { should be_valid }
 
@@ -49,7 +50,7 @@ describe Event do
               @event[column_name] = w
               @event.save
             end
-            it "そのまま保存されること" do
+            it 'そのまま保存されること' do
               expect(@event[column_name]).to eq(w)
             end
           end
@@ -78,6 +79,47 @@ describe Event do
     end
   end
 
-  # date に関するテストはあとで考える
-  # datetimeあたりが謎
+  # Railsがうまいことやってくれる内容だけど、一応書いておく
+  describe 'dateがdatetime形式に則っている場合' do
+    before do
+      @event.date = '2014/01/01'
+      @event.save
+    end
+    it 'そのまま保存されること' do
+      expect(@event.date).not_to eq(nil)
+    end
+  end
+
+  # Railsがうまいことやってくれる内容だけど、一応書いておく
+  describe 'dateがdatetime形式に則っていない場合' do
+    before do
+      @event.date = 'abc'
+      @event.save
+    end
+    it 'nilに変換されること' do
+      expect(@event.date).to eq(nil)
+    end
+  end
+
+  describe '#formatted_date' do
+    describe 'dateがnilでない場合' do
+      before do
+        @event.date = '2014/01/01'
+        @event.save
+      end
+      it 'yyyy/mm/dd形式を返却すること' do
+        expect(@event.formatted_date).to eq('2014/01/01')
+      end
+    end
+
+    describe 'dateがnilの場合' do
+      before do
+        @event.date = nil
+        @event.save
+      end
+      it '空文字列返却すること' do
+        expect(@event.formatted_date).to eq(nil)
+      end
+    end
+  end
 end
