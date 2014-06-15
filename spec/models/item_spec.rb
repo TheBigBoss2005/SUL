@@ -38,33 +38,33 @@ describe Item do
 
   describe 'when memo includes' do
 
-    describe 'approved symbol' do
-      %w(a あ ア ｱ 亜 0 ー / _ -).each do |w|
+    describe 'non-HTML-tag-symbol' do
+      %w(A Ａ あ ア ｱ 亜 0 ０ - ー = ＝ / _ \\ ? % \" \').each do |w|
         describe "'#{w}'" do
-          before { @item_from_event.memo = w }
-          it { should be_valid }
+          before do
+            @item_from_event.memo = w
+            @item_from_event.save
+          end
+          specify { expect(@item_from_event.memo).to eq(w) }
         end
       end
     end
 
-    describe 'non-approved symbol' do
-      %w(% \\ < > \' \").each do |w|
-        describe "'#{w}'" do
-          before { @item_from_event.memo = w }
-          it { should_not be_valid }
-        end
+    describe "HTML-tag-symbol '<'" do
+      before do
+        @item_from_event.memo = '<'
+        @item_from_event.save
       end
+      specify { expect(@item_from_event.memo).to eq('&lt;') }
     end
 
-    describe 'SPACE' do
-      %w(\  　).each do |w|
-        describe "'#{w}'" do
-          before { @item_from_event.memo = 'a' + w + 'b' }
-          it { should be_valid }
-        end
+    describe "HTML-tag-symbol '>'" do
+      before do
+        @item_from_event.memo = '>'
+        @item_from_event.save
       end
+      specify { expect(@item_from_event.memo).to eq('&gt;') }
     end
-
   end
 
   describe 'user_id' do
