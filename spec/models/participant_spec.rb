@@ -18,12 +18,12 @@ describe Participant do
 
   it { should be_valid }
 
-  describe 'user_id' do
+  describe 'user_idが空の場合' do
     before { @participant_from_event.user_id = ' ' }
     it { should_not be_valid }
   end
 
-  describe 'event_id' do
+  describe 'event_idが空の場合' do
     before { @participant_from_event.event_id = ' ' }
     it { should_not be_valid }
   end

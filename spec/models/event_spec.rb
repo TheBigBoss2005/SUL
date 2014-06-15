@@ -18,56 +18,62 @@ describe Event do
 
   it { should be_valid }
 
-  describe 'when name is not present' do
+  describe 'nameが空の場合' do
     before { @event.name = ' ' }
     it { should_not be_valid }
   end
 
-  describe 'when name is too long' do
+  describe 'nameの長さが40より長い場合' do
     before { @event.name = 'a' * 41 }
     it { should_not be_valid }
   end
 
-  describe 'when memo is not present' do
+  describe 'memoが空の場合' do
     before { @event.memo = ' ' }
     it { should be_valid }
   end
 
-  describe 'when memo is too long' do
+  describe 'memoの長さが40より長い場合' do
     before { @event.memo = 'a' * 41 }
     it { should_not be_valid }
   end
 
   %w(name memo).each do |column_name|
 
-    describe "when #{column_name} includes" do
+    describe "#{column_name}に含まれる文字が" do
 
-      describe 'non-HTML-tag-symbol' do
-        %w(A Ａ あ ア ｱ 亜 0 ０ - ー = ＝ / _ \\ ? % \" \').each do |w|
-          describe "'#{w}'" do
+      describe "'<','>'以外の場合" do
+        %w(A あ 0 - = / _ \\ " ').each do |w|
+          describe "例:'#{w}'" do
             before do
               @event[column_name] = w
               @event.save
             end
-            specify { expect(@event[column_name]).to eq(w) }
+            it "そのまま保存されること" do
+              expect(@event[column_name]).to eq(w)
+            end
           end
         end
       end
 
-      describe "HTML-tag-symbol '<'" do
+      describe "'<'の場合" do
         before do
           @event[column_name] = '<'
           @event.save
         end
-        specify { expect(@event[column_name]).to eq('&lt;') }
+        it "'&lt;'に変換されること" do
+          expect(@event[column_name]).to eq('&lt;')
+        end
       end
 
-      describe "HTML-tag-symbol '>'" do
+      describe "'>'の場合" do
         before do
           @event[column_name] = '>'
           @event.save
         end
-        specify { expect(@event[column_name]).to eq('&gt;') }
+        it "'&gt;'に変換されること" do
+          expect(@event[column_name]).to eq('&gt;')
+        end
       end
     end
   end

@@ -26,53 +26,59 @@ describe Item do
 
   it { should be_valid }
 
-  describe 'when memo is not present' do
+  describe 'memoが空の場合' do
     before { @item_from_event.memo = ' ' }
     it { should_not be_valid }
   end
 
-  describe 'when memo is too long' do
+  describe 'memoの長さが20より長い場合' do
     before { @item_from_event.memo = 'a' * 21 }
     it { should_not be_valid }
   end
 
-  describe 'when memo includes' do
+  describe 'memoに含まれる文字が' do
 
-    describe 'non-HTML-tag-symbol' do
-      %w(A Ａ あ ア ｱ 亜 0 ０ - ー = ＝ / _ \\ ? % \" \').each do |w|
-        describe "'#{w}'" do
+    describe "'<','>'以外の場合" do
+      %w(A あ 0 - = / _ \\ " ').each do |w|
+        describe "例:#{w}'" do
           before do
             @item_from_event.memo = w
             @item_from_event.save
           end
-          specify { expect(@item_from_event.memo).to eq(w) }
+          it 'そのまま保存されること' do
+            expect(@item_from_event.memo).to eq(w)
+          end
         end
       end
     end
 
-    describe "HTML-tag-symbol '<'" do
+    describe "'<'の場合" do
       before do
         @item_from_event.memo = '<'
         @item_from_event.save
       end
-      specify { expect(@item_from_event.memo).to eq('&lt;') }
+      it "'&lt;'に変換されること" do 
+        expect(@item_from_event.memo).to eq('&lt;')
+      end
     end
 
-    describe "HTML-tag-symbol '>'" do
+    describe "'>'の場合" do
       before do
         @item_from_event.memo = '>'
         @item_from_event.save
       end
-      specify { expect(@item_from_event.memo).to eq('&gt;') }
+      it "'&gt;'に変換されること" do
+        expect(@item_from_event.memo).to eq('&gt;')
+      end
     end
   end
 
-  describe 'user_id' do
+  describe 'user_idが空の場合' do
     before { @item_from_event.user_id = ' ' }
     it { should_not be_valid }
   end
 
-  describe 'event_id' do
+  describe 'event_idが空の場合' do
     before { @item_from_event.event_id = ' ' }
     it { should_not be_valid }
   end
