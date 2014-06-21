@@ -8,23 +8,31 @@ describe Participant do
 
   subject { @participant_from_event }
 
-  it { should respond_to(:user_id) }
-  its(:user) { should eq(user) }
+  specify { expect(subject).to respond_to(:user_id) }
+  specify { expect(subject.user).to eq(user) }
 
-  it { should respond_to(:event_id) }
-  its(:event) { should eq(event) }
+  specify { expect(subject).to respond_to(:event_id) }
+  specify { expect(subject.event).to eq(event) }
 
-  it { should respond_to(:payments) }
+  specify { expect(subject).to respond_to(:payments) }
 
-  it { should be_valid }
-
-  describe 'user_idが空の場合' do
-    before { @participant_from_event.user_id = ' ' }
-    it { should_not be_valid }
+  describe Participant, '#user_id, #event_idが設定済の場合' do
+    specify 'validationに成功すること' do
+      expect(subject).to be_valid
+    end
   end
 
-  describe 'event_idが空の場合' do
-    before { @participant_from_event.event_id = ' ' }
-    it { should_not be_valid }
+  describe Participant, '#user_idが空の場合' do
+    before { subject.user_id = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
+  end
+
+  describe Participant, '#event_idが空の場合' do
+    before { subject.event_id = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 end
