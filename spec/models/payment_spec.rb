@@ -16,10 +16,35 @@ describe Payment do
 
   subject { @payment_from_item }
 
-  it { should respond_to(:participant_id) }
-  it { should respond_to(:item_id) }
-  it { should respond_to(:price) }
-  it { should respond_to(:status) }
+  specify { expect(subject).to respond_to(:participant_id) }
+  specify { expect(subject).to respond_to(:item_id) }
+  specify { expect(subject).to respond_to(:price) }
+  specify { expect(subject).to respond_to(:status) }
 
-  it { should be_valid }
+  describe Payment, '#participant_id, #item_id, #priceが設定済の場合' do
+    specify 'validationに成功すること' do
+      expect(subject).to be_valid
+    end
+  end
+
+  describe Payment, '#participant_idが空の場合' do
+    before { subject.participant_id = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
+  end
+
+  describe Payment, '#item_idが空の場合' do
+    before { subject.item_id = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
+  end
+
+  describe Payment, '#priceが空の場合' do
+    before { subject.price = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
+  end
 end
