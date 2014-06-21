@@ -10,12 +10,12 @@ describe Event do
 
   subject { @event }
 
-  it { should respond_to(:name) }
-  it { should respond_to(:memo) }
-  it { should respond_to(:date) }
-  it { should respond_to(:participants) }
-  it { should respond_to(:items) }
-  it { should respond_to(:formatted_date) }
+  specify { expect(subject).to respond_to(:name) }
+  specify { expect(subject).to respond_to(:memo) }
+  specify { expect(subject).to respond_to(:date) }
+  specify { expect(subject).to respond_to(:participants) }
+  specify { expect(subject).to respond_to(:items) }
+  specify { expect(subject).to respond_to(:formatted_date) }
 
   describe Event, '#name, #memo, #dateが設定済の場合' do
     specify 'validationに成功すること' do
