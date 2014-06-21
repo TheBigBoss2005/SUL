@@ -18,35 +18,43 @@ describe Item do
 
   subject { @item_from_event }
 
-  it { should respond_to(:user_id) }
-  it { should respond_to(:memo) }
-  it { should respond_to(:event_id) }
-  it { should respond_to(:price) }
-  it { should respond_to(:payments) }
+  specify { expect(subject).to respond_to(:user_id) }
+  specify { expect(subject).to respond_to(:memo) }
+  specify { expect(subject).to respond_to(:event_id) }
+  specify { expect(subject).to respond_to(:price) }
+  specify { expect(subject).to respond_to(:payments) }
 
-  it { should be_valid }
-
-  describe 'memoが空の場合' do
-    before { @item_from_event.memo = ' ' }
-    it { should_not be_valid }
+  describe Item, '#user_id, #memo, #event_id, #priceが設定済の場合' do
+    specify 'validationに成功すること' do
+      expect(subject).to be_valid
+    end
   end
 
-  describe 'memoの長さが20より長い場合' do
-    before { @item_from_event.memo = 'a' * 21 }
-    it { should_not be_valid }
+  describe Item, '#memoが空の場合' do
+    before { subject.memo = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 
-  describe 'memoに含まれる文字が' do
+  describe Item, '#memoの長さが20より長い場合' do
+    before { subject.memo = 'a' * 21 }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
+  end
+
+  describe Item, '#memoに含まれる文字が' do
 
     describe "'<','>'以外の場合" do
       %w(A あ 0 - = / _ \\ " ').each do |w|
         describe "例:#{w}'" do
           before do
-            @item_from_event.memo = w
-            @item_from_event.save
+            subject.memo = w
+            subject.save
           end
           it 'そのまま保存されること' do
-            expect(@item_from_event.memo).to eq(w)
+            expect(subject.memo).to eq(w)
           end
         end
       end
@@ -54,32 +62,36 @@ describe Item do
 
     describe "'<'の場合" do
       before do
-        @item_from_event.memo = '<'
-        @item_from_event.save
+        subject.memo = '<'
+        subject.save
       end
       it "'&lt;'に変換されること" do
-        expect(@item_from_event.memo).to eq('&lt;')
+        expect(subject.memo).to eq('&lt;')
       end
     end
 
     describe "'>'の場合" do
       before do
-        @item_from_event.memo = '>'
-        @item_from_event.save
+        subject.memo = '>'
+        subject.save
       end
       it "'&gt;'に変換されること" do
-        expect(@item_from_event.memo).to eq('&gt;')
+        expect(subject.memo).to eq('&gt;')
       end
     end
   end
 
-  describe 'user_idが空の場合' do
-    before { @item_from_event.user_id = ' ' }
-    it { should_not be_valid }
+  describe Item, '#user_idが空の場合' do
+    before { subject.user_id = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 
-  describe 'event_idが空の場合' do
-    before { @item_from_event.event_id = ' ' }
-    it { should_not be_valid }
+  describe Item, '#event_idが空の場合' do
+    before { subject.event_id = ' ' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 end
