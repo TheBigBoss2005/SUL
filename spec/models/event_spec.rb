@@ -17,31 +17,43 @@ describe Event do
   it { should respond_to(:items) }
   it { should respond_to(:formatted_date) }
 
-  it { should be_valid }
+  describe Event, '#name, #memo, #dateが設定済の場合' do
+    specify 'validationに成功すること' do
+      expect(subject).to be_valid
+    end
+  end
 
-  describe 'nameが空の場合' do
+  describe Event, '#nameが空の場合' do
     before { @event.name = ' ' }
-    it { should_not be_valid }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 
-  describe 'nameの長さが40より長い場合' do
+  describe Event, '#nameの長さが40より長い場合' do
     before { @event.name = 'a' * 41 }
-    it { should_not be_valid }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 
-  describe 'memoが空の場合' do
+  describe Event, '#memoが空の場合' do
     before { @event.memo = ' ' }
-    it { should be_valid }
+    specify 'validationに成功すること' do
+      expect(subject).to be_valid
+    end
   end
 
-  describe 'memoの長さが40より長い場合' do
+  describe Event, '#memoの長さが40より長い場合' do
     before { @event.memo = 'a' * 41 }
-    it { should_not be_valid }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
   end
 
   %w(name memo).each do |column_name|
 
-    describe "#{column_name}に含まれる文字が" do
+    describe Event, "##{column_name}に含まれる文字が" do
 
       describe "'<','>'以外の場合" do
         %w(A あ 0 - = / _ \\ " ').each do |w|
@@ -80,7 +92,7 @@ describe Event do
   end
 
   # Railsがうまいことやってくれる内容だけど、一応書いておく
-  describe 'dateがdatetime形式に則っている場合' do
+  describe Event, '#dateがdatetime形式に則っている場合' do
     before do
       @event.date = '2014/01/01'
       @event.save
@@ -91,7 +103,7 @@ describe Event do
   end
 
   # Railsがうまいことやってくれる内容だけど、一応書いておく
-  describe 'dateがdatetime形式に則っていない場合' do
+  describe Event, '#dateがdatetime形式に則っていない場合' do
     before do
       @event.date = 'abc'
       @event.save
@@ -101,8 +113,8 @@ describe Event do
     end
   end
 
-  describe '#formatted_date' do
-    describe 'dateがnilでない場合' do
+  describe Event, '#formatted_date' do
+    describe Event, '#dateがnilでない場合' do
       before do
         @event.date = '2014/01/01'
         @event.save
@@ -112,7 +124,7 @@ describe Event do
       end
     end
 
-    describe 'dateがnilの場合' do
+    describe Event, '#dateがnilの場合' do
       before do
         @event.date = nil
         @event.save
