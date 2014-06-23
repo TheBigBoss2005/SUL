@@ -21,18 +21,18 @@ describe 'EventPages' do
 
     describe '無効な登録内容のとき' do
       it 'イベントが追加されないこと' do
-        # expect { click_button submit }.not_to change(Event, :count)
+        expect { click_button submit }.not_to change(Event, :count)
       end
 
       describe '確定ボタン押下時' do
-        # before { click_button submit }
+        before { click_button submit }
 
         specify 'イベント作成画面に戻ること' do
-          # expect(page).to have_title('新規イベント作成')
+          expect(page).to have_title('新規イベント作成')
         end
 
         specify 'エラーメッセージが表示されること' do
-          # expect(page).to have_content('error')
+          expect(page).to have_content('Error')
         end
       end
     end
@@ -44,8 +44,16 @@ describe 'EventPages' do
         fill_in 'Date', with: '2014/01/01'
       end
 
-      it 'イベントが追加されること' do
-        # expect { click_button submit }.to change(Event, :count).by(1)
+      specify 'イベントが追加されること' do
+        expect { click_button submit }.to change(Event, :count).by(1)
+      end
+
+      specify 'イベント作成画面に戻ること' do
+        expect(page).to have_title('新規イベント作成')
+      end
+
+      specify 'エラーメッセージが表示されないこと' do
+        expect(page).not_to have_content('Error')
       end
     end
   end
