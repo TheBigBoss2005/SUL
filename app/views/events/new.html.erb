@@ -46,6 +46,12 @@
                 </div>
               </div>
               <div class="form-group">
+                <%= f.label :participants, class: 'col-lg-2 control-label' %>
+                <div class="col-lg-10">
+                  <%= f.select :participant_ids, User.all.map {|u| [u.name, u.id]}, {}, multiple: true , class: 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                   <%= f.button 'キャンセル', class: 'btn btn-default btn-lg' %>
                   <%= f.submit '確定', class: 'btn btn-primary btn-lg' %>
