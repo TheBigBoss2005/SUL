@@ -50,6 +50,17 @@ describe 'EventPages' do
       visit newevent_path
     end
     let(:submit) { '確定' }
+    let(:cancel) { 'キャンセル' }
+
+    describe 'キャンセルボタン押下時' do
+      before { click_button cancel }
+
+      # 本来はイベント一覧ページに遷移する
+      # イベント一覧ページができるまではイベント作成画面に戻る
+      specify 'イベント作成画面に戻ること' do
+        expect(page).to have_title('新規イベント作成')
+      end
+    end
 
     describe '無効な登録内容のとき' do
       it 'イベントが追加されないこと' do
