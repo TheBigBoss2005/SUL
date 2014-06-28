@@ -3,13 +3,7 @@ require 'spec_helper'
 describe 'EventPages' do
 
   describe 'GET /newevent' do
-    before do
-      User.create(name: 'Alpha')
-      User.create(name: 'Bravo')
-      User.create(name: 'Charlie')
-      @user = User.first
-      visit newevent_path
-    end
+    before { visit newevent_path }
     title = '新規イベント作成'
 
     it "は'#{title}'の見出しを表示する" do
@@ -32,12 +26,32 @@ describe 'EventPages' do
       expect(page).to have_selector(:xpath, "//input[@id='event_date']")
     end
 
-    it 'は参加者選択欄を含む' do
-      expect(page).to have_selector(:xpath, "//select[@id='event_participant_ids']")
+    describe '登録済ユーザが存在するとき' do
+      before do
+        User.create(name: 'Alpha')
+        User.create(name: 'Bravo')
+        User.create(name: 'Charlie')
+        @user = User.first
+        visit newevent_path
+      end
+
+      it 'は参加者選択欄を含む' do
+        expect(page).to have_selector(:xpath, "//select[@id='event_participant_ids']")
+      end
+
+      it 'は参加者選択肢に登録済ユーザを含む' do
+        expect(page).to have_selector(:xpath, "//option[@value='#{@user.id}']")
+      end
     end
 
-    it 'は参加者選択肢に登録済ユーザを含む' do
-      expect(page).to have_selector(:xpath, "//option[@value='#{@user.id}']")
+    describe '登録済ユーザが存在しないとき' do
+      it 'は参加者選択欄を含まない' do
+        expect(page).not_to have_selector(:xpath, "//select[@id='event_participant_ids']")
+      end
+
+      it 'はユーザ登録メッセージを含む' do
+        expect(page).to have_content('ユーザ登録を行ってください')
+      end
     end
   end
 

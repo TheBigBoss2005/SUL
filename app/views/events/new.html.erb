@@ -48,7 +48,11 @@
               <div class="form-group">
                 <%= f.label :participants, class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.select :participant_ids, User.all.map {|u| [u.name, u.id]}, {}, multiple: true , class: 'form-control' %>
+                  <% if @users.empty? %>
+                    イベントの参加者を選択するために、まずはユーザ登録を行ってください
+                  <% else %>
+                    <%= f.select :participant_ids, @users.map {|u| [u.name, u.id]}, {}, multiple: true , class: 'form-control' %>
+                  <% end %>
                 </div>
               </div>
               <div class="form-group">
