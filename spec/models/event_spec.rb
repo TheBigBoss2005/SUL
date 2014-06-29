@@ -14,6 +14,7 @@ describe Event do
   specify { expect(subject).to respond_to(:memo) }
   specify { expect(subject).to respond_to(:date) }
   specify { expect(subject).to respond_to(:participants) }
+  specify { expect(subject).to respond_to(:users) }
   specify { expect(subject).to respond_to(:items) }
   specify { expect(subject).to respond_to(:formatted_date) }
 

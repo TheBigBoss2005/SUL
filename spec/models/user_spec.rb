@@ -9,6 +9,7 @@ describe User do
 
   specify { expect(subject).to respond_to(:name) }
   specify { expect(subject).to respond_to(:participants) }
+  specify { expect(subject).to respond_to(:events) }
   specify { expect(subject).to respond_to(:items) }
 
   describe User, '#nameが設定済の場合' do
