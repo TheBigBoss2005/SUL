@@ -14,16 +14,16 @@ describe 'EventPages' do
       expect(page).to have_title(title)
     end
 
-    it 'はイベント名入力欄を含む' do
-      expect(page).to have_selector(:xpath, "//input[@id='event_name']")
+    it 'はイベント名入力欄(空)を含む' do
+      expect(page.find_field('Name').text).to be_empty
     end
 
-    it 'はメモ入力欄を含む' do
-      expect(page).to have_selector(:xpath, "//input[@id='event_memo']")
+    it 'はメモ入力欄(空)を含む' do
+      expect(page.find_field('Memo').text).to be_empty
     end
 
-    it 'は開催日入力欄を含む' do
-      expect(page).to have_selector(:xpath, "//input[@id='event_date']")
+    it 'は開催日入力欄(空)を含む' do
+      expect(page.find_field('Date').text).to be_empty
     end
 
     describe '登録済ユーザが存在するとき' do
@@ -119,6 +119,48 @@ describe 'EventPages' do
       specify 'エラーメッセージが表示されないこと' do
         expect(page).not_to have_content('Error')
       end
+    end
+  end
+
+  describe 'GET /event/*/edit' do
+    before do
+      User.create(name: 'Alpha')
+      User.create(name: 'Bravo')
+      User.create(name: 'Charlie')
+      User.create(name: 'Delta')
+      User.create(name: 'Echo')
+
+      @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
+      @event.participants.create(user_id: 1)
+      @event.participants.create(user_id: 3)
+      @event.participants.create(user_id: 5)
+
+      visit edit_event_path(@event)
+    end
+    title = 'イベント編集'
+
+    it "は'#{title}'の見出しを表示する" do
+      expect(page).to have_content(title)
+    end
+
+    it "はページタイトルに'#{title}'を含む" do
+      expect(page).to have_title(title)
+    end
+
+    it 'はイベント名入力欄(変更前の値入力済)を含む' do
+      expect(page).to have_field('Name', with: @event.name)
+    end
+
+    it 'はメモ入力欄(変更前の値入力済)を含む' do
+      expect(page).to have_field('Memo', with: @event.memo)
+    end
+
+    it 'は開催日入力欄(変更前の値入力済)を含む' do
+      expect(page).to have_field('Date', with: @event.formatted_date)
+    end
+
+    it 'は参加者選択欄を含む' do
+      expect(page).to have_selector(:xpath, "//select[@id='event_participant_ids']")
     end
   end
 end

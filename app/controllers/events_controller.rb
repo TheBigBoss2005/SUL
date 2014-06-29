@@ -20,6 +20,14 @@ class EventsController < ApplicationController
     end
   end
 
+  def edit
+    @event = Event.find(params[:id])
+    @users = User.all
+  end
+
+  def update
+  end
+
   private
 
   def event_params
