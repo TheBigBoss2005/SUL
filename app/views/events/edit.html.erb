@@ -27,6 +27,7 @@
               </div>
             <% end%>
             <fieldset>
+              <legend>イベント基本情報</legend>
               <div class="form-group">
                 <%= f.label :name, class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
@@ -36,7 +37,7 @@
               <div class="form-group">
                 <%= f.label :memo, class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_field :memo, class: 'form-control' %>
+                  <%= f.text_area :memo, class: 'form-control' %>
                 </div>
               </div>
               <div class="form-group">
@@ -48,13 +49,73 @@
               <div class="form-group">
                 <%= f.label :participants, class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <% if @users.empty? %>
-                    イベントの参加者を選択するために、まずはユーザ登録を行ってください
+                  <% if @event.users.empty? %>
+                    イベント参加中のユーザは存在しません   
                   <% else %>
-                    <%= f.select :participant_ids, @users.map {|u| [u.name, u.id]}, {}, multiple: true , class: 'form-control' %>
+                    <ul>
+                      <% @event.users.each do |u| %>
+                        <li><%= u.name %></li>
+                      <% end %>
+                    </ul>
+                  <% end %>
+                </div>
+                <div class="col-lg-10 col-lg-offset-2">
+                  <% if @not_participate_users.empty? %>
+                    イベント未参加のユーザは存在しません
+                  <% else %>
+                    <%= f.select :participant_ids, @not_participate_users.map {|u| [u.name, u.id]}, {include_blank: '追加する参加者を選択'}, multiple: true, class: 'form-control' %>
                   <% end %>
                 </div>
               </div>
+            </fieldset>
+            <fieldset>
+              <legend>支払情報</legend>
+              <% if @event.users.empty? %>
+                <div class="form-group">
+                  <div class="col-lg-10 col-lg-offset-2">
+                    支払情報を登録する前に参加者を登録してください
+                  </div>
+                </div>
+              <% else %>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label" for="payment_source_user_ids">支払元</label>
+                  <div class="col-lg-10">
+                    <select class="form-control" id="source_user_ids" multiple="multiple" name="payment[source_user_ids][]">
+                      <% @event.users.each do |u| %>
+                        <option value="<%= u.id %>"><%= u.name %></option>
+                      <% end %>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label" for="dest_user">支払先</label>
+                  <div class="col-lg-10">
+                    <select class="form-control" id="dest_user_id" name="payment[dest_user_id]">
+                      <% @event.users.each do |u| %>
+                        <option value="<%= u.id %>"><%= u.name %></option>
+                      <% end %>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label" for="item_name">品目</label>
+                  <div class="col-lg-10">
+                    <input class="form-control" type="text" id="item_name" name="item[name]">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label" for="item_price">金額</label>
+                  <div class="col-lg-10">
+                    <input class="form-control" type="text" id="item_price" name="item[price]">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label" for="item_memo">メモ</label>
+                  <div class="col-lg-10">
+                    <textarea class="form-control" rows="3" id="item_memo" name="item[memo]"></textarea>
+                  </div>
+                </div>
+              <% end %>
               <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                   <%= f.button 'キャンセル', class: 'btn btn-default btn-lg' %>

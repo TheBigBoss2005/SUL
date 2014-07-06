@@ -52,6 +52,7 @@ describe 'EventPages' do
       it 'はユーザ登録メッセージを含む' do
         expect(page).to have_content('ユーザ登録を行ってください')
       end
+
     end
   end
 
@@ -161,6 +162,42 @@ describe 'EventPages' do
 
     it 'は参加者選択欄を含む' do
       expect(page).to have_selector(:xpath, "//select[@id='event_participant_ids']")
+    end
+
+    it 'は参加者選択肢にイベント未参加の登録済ユーザを含む' do
+      expect(page).to have_selector(:xpath, "//option[@value='4'][../@id='event_participant_ids']")
+    end
+
+    it 'は参加者選択肢にイベント参加済の登録済ユーザを含まない' do
+      expect(page).not_to have_selector(:xpath, "//option[@value='1'][../@id='event_participant_ids']")
+    end
+
+    it 'は支払元選択欄を含む' do
+      expect(page).to have_selector(:xpath, "//select[@id='source_user_ids']")
+    end
+
+    it 'は支払元リストに参加済の参加者を含む' do
+      expect(page).to have_selector(:xpath, "//option[@value='1'][../@id='source_user_ids']")
+    end
+
+    it 'は支払先選択欄を含む' do
+      expect(page).to have_selector(:xpath, "//select[@id='dest_user_id']")
+    end
+
+    it 'は支払先リストに参加済の参加者を含む' do
+      expect(page).to have_selector(:xpath, "//option[@value='1'][../@id='dest_user_id']")
+    end
+
+    it 'は品目入力欄を含む' do
+      expect(page).to have_field('品目')
+    end
+
+    it 'は金額入力欄を含む' do
+      expect(page).to have_field('金額')
+    end
+
+    it 'はメモ入力欄を含む' do
+      expect(page).to have_field('メモ')
     end
   end
 end

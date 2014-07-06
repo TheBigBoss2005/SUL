@@ -8,8 +8,10 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @users = User.all
     if @event.save
-      params[:event][:participant_ids].each do |p_id|
-        @event.participants.create(user_id: p_id.to_i) unless p_id.empty?
+      if params[:event][:participant_ids]
+        params[:event][:participant_ids].each do |p_id|
+          @event.participants.create(user_id: p_id.to_i) unless p_id.empty?
+        end
       end
       flash[:success] = "イベント#{@event.name}を作成しました"
       # event一覧ページができたらそっちに遷移する
@@ -23,6 +25,7 @@ class EventsController < ApplicationController
   def edit
     @event = Event.find(params[:id])
     @users = User.all
+    @not_participate_users = @users - @event.users
   end
 
   def update
