@@ -132,9 +132,12 @@ describe 'EventPages' do
       User.create(name: 'Echo')
 
       @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
-      @event.participants.create(user_id: 1)
-      @event.participants.create(user_id: 3)
-      @event.participants.create(user_id: 5)
+      @event.participants.create(user_id: User.first.id)
+      @event.participants.create(user_id: User.third.id)
+      @event.participants.create(user_id: User.fifth.id)
+
+      @participant = User.first
+      @out_of_participant = User.second
 
       visit edit_event_path(@event)
     end
@@ -165,11 +168,11 @@ describe 'EventPages' do
     end
 
     it 'は参加者選択肢にイベント未参加の登録済ユーザを含む' do
-      expect(page).to have_selector(:xpath, "//option[@value='4'][../@id='event_participant_ids']")
+      expect(page).to have_selector(:xpath, "//option[@value='#{@out_of_participant.id}'][../@id='event_participant_ids']")
     end
 
     it 'は参加者選択肢にイベント参加済の登録済ユーザを含まない' do
-      expect(page).not_to have_selector(:xpath, "//option[@value='1'][../@id='event_participant_ids']")
+      expect(page).not_to have_selector(:xpath, "//option[@value='#{@participant.id}'][../@id='event_participant_ids']")
     end
 
     it 'は支払元選択欄を含む' do
@@ -177,7 +180,7 @@ describe 'EventPages' do
     end
 
     it 'は支払元リストに参加済の参加者を含む' do
-      expect(page).to have_selector(:xpath, "//option[@value='1'][../@id='source_user_ids']")
+      expect(page).to have_selector(:xpath, "//option[@value='#{@participant.id}'][../@id='source_user_ids']")
     end
 
     it 'は支払先選択欄を含む' do
@@ -185,7 +188,7 @@ describe 'EventPages' do
     end
 
     it 'は支払先リストに参加済の参加者を含む' do
-      expect(page).to have_selector(:xpath, "//option[@value='1'][../@id='dest_user_id']")
+      expect(page).to have_selector(:xpath, "//option[@value='#{@participant.id}'][../@id='dest_user_id']")
     end
 
     it 'は品目入力欄を含む' do
