@@ -16,7 +16,7 @@ class EventsController < ApplicationController
       flash[:success] = "イベント#{@event.name}を作成しました"
       # event一覧ページができたらそっちに遷移する
       # それまではイベント作成ページに戻る
-      redirect_to '/newevent'
+      redirect_to 'new'
     else
       render 'new'
     end

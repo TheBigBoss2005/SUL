@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'EventPages' do
 
-  describe 'GET /newevent' do
-    before { visit newevent_path }
+  describe 'GET /events/new' do
+    before { visit new_event_path }
     title = '新規イベント作成'
 
     it "は'#{title}'の見出しを表示する" do
@@ -32,7 +32,7 @@ describe 'EventPages' do
         User.create(name: 'Bravo')
         User.create(name: 'Charlie')
         @user = User.first
-        visit newevent_path
+        visit new_event_path
       end
 
       it 'は参加者選択欄を含む' do
@@ -62,7 +62,7 @@ describe 'EventPages' do
       User.create(name: 'Bravo')
       User.create(name: 'Charlie')
       @user = User.first
-      visit newevent_path
+      visit new_event_path
     end
     let(:submit) { '確定' }
     let(:cancel) { 'キャンセル' }
@@ -201,6 +201,40 @@ describe 'EventPages' do
 
     it 'はメモ入力欄を含む' do
       expect(page).to have_field('メモ')
+    end
+
+    describe '支払情報が未登録のとき' do
+      it 'は支払情報が未登録であるメッセージが表示される' do
+        expect(page).to have_content('登録済支払情報はありません')
+      end
+    end
+
+    describe '支払情報が登録済のとき' do
+      before do
+        @item = @event.items.create(user_id: @event.participants.first.user_id, price: 100, memo: 'fuga')
+        @payment = @item.payments.create(price: 100, participant_id: @event.participants.second.id)
+        visit edit_event_path(@event)
+      end
+
+      it 'は支払情報(品目名)が表示される' do
+        expect(page).to have_content(@item.memo)
+      end
+
+      it 'は支払情報(支払元ユーザ名)が表示される' do
+      end
+
+      it 'は支払情報(支払先ユーザ名)が表示される' do
+        expect(page).to have_content(User.find_by(id: @item.user_id).name)
+      end
+
+      it 'は支払情報(金額)が表示される' do
+        expect(page).to have_content(@payment.price)
+      end
+
+      it 'は支払情報(精算状況)が表示される' do
+        expect(page).to have_content('未精算')
+      end
+
     end
   end
 end
