@@ -237,4 +237,79 @@ describe 'EventPages' do
 
     end
   end
+
+  describe 'イベント編集機能' do
+    before do
+      User.create(name: 'Alpha')
+      User.create(name: 'Bravo')
+      User.create(name: 'Charlie')
+      User.create(name: 'Delta')
+      User.create(name: 'Echo')
+
+      @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
+      @event.participants.create(user_id: User.first.id)
+      @event.participants.create(user_id: User.third.id)
+      @event.participants.create(user_id: User.fifth.id)
+
+      @participant = User.first
+      @out_of_participant = User.second
+
+      visit edit_event_path(@event)
+    end
+
+    let(:submit) { '確定' }
+    let(:cancel) { 'キャンセル' }
+
+    describe 'キャンセルボタン押下時' do
+      before { click_button cancel }
+
+      # 本来はイベント詳細ページに遷移する
+      # イベント詳細ページができるまではイベント編集画面に戻る
+      specify 'イベント編集画面に戻ること' do
+        expect(page).to have_title('イベント編集')
+      end
+    end
+
+    describe '無効な登録内容のとき' do
+      before do
+        fill_in 'Name', with: ' '
+      end
+
+      it 'イベントが更新されないこと' do
+        expect { click_button submit }.not_to change(@event, :updated_at)
+      end
+
+      describe '確定ボタン押下時' do
+        before { click_button submit }
+
+        specify 'イベント編集画面に戻ること' do
+          expect(page).to have_title('イベント編集')
+        end
+
+        specify 'エラーメッセージが表示されること' do
+          expect(page).to have_content('Error')
+        end
+      end
+    end
+
+    describe 'イベント基本情報が有効な変更内容のとき' do
+      before do
+        fill_in 'Name', with: 'TEST EVENT'
+        select @out_of_participant.name, from: 'event_participant_ids'
+        click_button submit
+      end
+
+      specify 'イベントが更新されること' do
+        expect(Event.find_by(id: @event.id).name).to eq('TEST EVENT')
+      end
+
+      specify 'イベント参加者が追加されること' do
+        expect(Event.find_by(id: @event.id).users).to include(@out_of_participant)
+      end
+
+      specify 'エラーメッセージが表示されないこと' do
+        expect(page).not_to have_content('Error')
+      end
+    end
+  end
 end

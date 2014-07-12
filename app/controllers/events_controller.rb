@@ -29,6 +29,24 @@ class EventsController < ApplicationController
   end
 
   def update
+    @event = Event.find(params[:id])
+    @users = User.all
+    @not_participate_users = @users - @event.users
+    # update event
+    @event.name = params[:event][:name]
+    @event.memo = params[:event][:memo]
+    @event.date = params[:event][:date]
+    if @event.save
+      if params[:event][:participant_ids]
+        params[:event][:participant_ids].each do |p_id|
+          @event.participants.create(user_id: p_id.to_i) unless p_id.empty?
+        end
+      end
+      render 'edit'
+    else
+      @event.errors[:base] << 'error msg'
+      render 'edit'
+    end
   end
 
   private
