@@ -125,9 +125,9 @@ describe 'EventPages' do
 
   describe 'GET /event/*/edit' do
     before do
-      User.create(name: 'Alpha')
+      @dest_user = User.create(name: 'Alpha')
       User.create(name: 'Bravo')
-      User.create(name: 'Charlie')
+      @source_user = User.create(name: 'Charlie')
       User.create(name: 'Delta')
       User.create(name: 'Echo')
 
@@ -221,11 +221,11 @@ describe 'EventPages' do
       end
 
       it 'は支払情報(支払元ユーザ名)が表示される' do
-        expect(page).to have_content(User.find_by(id: Participant.find_by(id: @payment.participant_id)).name)
+        expect(page).to have_content(@source_user.name)
       end
 
       it 'は支払情報(支払先ユーザ名)が表示される' do
-        expect(page).to have_content(User.find_by(id: @item.user_id).name)
+        expect(page).to have_content(@dest_user.name)
       end
 
       it 'は支払情報(金額)が表示される' do
