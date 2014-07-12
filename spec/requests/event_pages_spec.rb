@@ -221,6 +221,7 @@ describe 'EventPages' do
       end
 
       it 'は支払情報(支払元ユーザ名)が表示される' do
+        expect(page).to have_content(User.find_by(id: Participant.find_by(id: @payment.participant_id)).name)
       end
 
       it 'は支払情報(支払先ユーザ名)が表示される' do

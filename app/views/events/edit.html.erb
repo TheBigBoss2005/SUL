@@ -63,7 +63,12 @@
                   <% if @not_participate_users.empty? %>
                     イベント未参加のユーザは存在しません
                   <% else %>
-                    <%= f.select :participant_ids, @not_participate_users.map {|u| [u.name, u.id]}, {include_blank: '追加する参加者を選択'}, multiple: true, class: 'form-control' %>
+                    <select class="form-control" id="event_participant_ids" multiple="multiple" name="event[participant_ids][]">
+                      <option value="">追加する参加者を選択</option>
+                      <% @not_participate_users.each do |u| %>
+                        <option value="<%= u.id %>"><%= u.name %></option>
+                      <% end %>
+                    </select>
                   <% end %>
                 </div>
               </div>
@@ -143,7 +148,7 @@
                           <% unless item.payments.empty? then %> 
                             <% item.payments.each do |payment| %>
                               <tr>
-                                <td>*</td>
+                                <td><%= User.find_by(id: Participant.find_by(id: payment.participant_id).user_id).name %></td>
                                 <td><%= User.find_by(id: item.user_id).name %></td>
                                 <td><%= item.memo %></td>
                                 <td><%= payment.price %></td>
