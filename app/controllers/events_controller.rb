@@ -18,7 +18,7 @@ class EventsController < ApplicationController
       # それまではイベント作成ページに戻る
       redirect_to action: 'new'
     else
-      redirect_to action: 'new'
+      render 'new'
     end
   end
 
@@ -41,8 +41,7 @@ class EventsController < ApplicationController
       @item.delete if @item.payments.empty?
       redirect_to action: 'edit'
     else
-      @event.errors[:base] << 'error msg'
-      redirect_to action: 'edit'
+      render 'edit'
     end
   end
 
