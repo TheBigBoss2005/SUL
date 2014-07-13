@@ -16,9 +16,9 @@ class EventsController < ApplicationController
       flash[:success] = "イベント#{@event.name}を作成しました"
       # event一覧ページができたらそっちに遷移する
       # それまではイベント作成ページに戻る
-      redirect_to 'new'
+      redirect_to action: 'new'
     else
-      render 'new'
+      redirect_to action: 'new'
     end
   end
 
@@ -39,15 +39,11 @@ class EventsController < ApplicationController
       # create item and payment
       create_payment if @item = create_item
       @item.delete if @item.payments.empty?
-      render 'edit'
+      redirect_to action: 'edit'
     else
       @event.errors[:base] << 'error msg'
-      render 'edit'
+      redirect_to action: 'edit'
     end
-  end
-
-  def update_debug
-    render text: params
   end
 
   private
