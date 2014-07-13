@@ -180,7 +180,7 @@ describe 'EventPages' do
     end
 
     it 'は支払元リストに参加済の参加者を含む' do
-      expect(page).to have_selector(:xpath, "//option[@value='#{@participant.id}'][../@id='source_user_ids']")
+      expect(page).to have_selector(:xpath, "//option[@value='#{@event.participants.first.id}'][../@id='source_user_ids']")
     end
 
     it 'は支払先選択欄を含む' do
