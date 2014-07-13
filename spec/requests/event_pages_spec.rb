@@ -199,10 +199,6 @@ describe 'EventPages' do
       expect(page).to have_field('金額')
     end
 
-    it 'はメモ入力欄を含む' do
-      expect(page).to have_field('メモ')
-    end
-
     describe '支払情報が未登録のとき' do
       it 'は支払情報が未登録であるメッセージが表示される' do
         expect(page).to have_content('登録済支払情報はありません')
@@ -310,6 +306,76 @@ describe 'EventPages' do
 
       specify 'エラーメッセージが表示されないこと' do
         expect(page).not_to have_content('Error')
+      end
+    end
+
+    describe '支払情報が無効な変更内容のとき' do
+      before do
+        select @event.users.second.name, from: 'dest_user_id'
+        fill_in '品目', with: 'foobar'
+        fill_in '金額', with: '1000'
+      end
+
+      specify '支払品目が追加されないこと' do
+        expect { click_button submit }.not_to change(Item, :count)
+      end
+
+      specify '支払情報が追加されないこと' do
+        expect { click_button submit }.not_to change(Payment, :count)
+      end
+    end
+
+    describe '支払情報が有効な変更内容(支払元が一人)のとき' do
+      before do
+        select @event.users.first.name, from: 'source_user_ids'
+        select @event.users.second.name, from: 'dest_user_id'
+        fill_in '品目', with: 'foobar'
+        fill_in '金額', with: '1000'
+      end
+
+      specify '支払品目が１件追加されること' do
+        expect { click_button submit }.to change(Item, :count).by(1)
+      end
+
+      specify '支払情報が１件追加されること' do
+        expect { click_button submit }.to change(Payment, :count).by(1)
+      end
+    end
+
+    describe '支払情報が有効な変更内容(支払元が複数)のとき' do
+      before do
+        select @event.users.first.name, from: 'source_user_ids'
+        select @event.users.third.name, from: 'source_user_ids'
+        select @event.users.second.name, from: 'dest_user_id'
+        fill_in '品目', with: 'foobar'
+        fill_in '金額', with: '1000'
+      end
+
+      specify '支払品目が１件追加されること' do
+        expect { click_button submit }.to change(Item, :count).by(1)
+      end
+
+      specify '支払情報が複数追加されること' do
+        expect { click_button submit }.to change(Payment, :count).by(2)
+      end
+
+      specify '支払情報の支払金額が割り勘後の金額で追加されること' do
+        click_button submit
+        expect(@event.items.first.payments.last.price).to eq(500)
+      end
+    end
+
+    describe '支払元と支払先が同一ユーザの場合' do
+      before do
+        select @event.users.first.name, from: 'source_user_ids'
+        select @event.users.first.name, from: 'dest_user_id'
+        fill_in '品目', with: 'foobar'
+        fill_in '金額', with: '1000'
+        click_button submit
+      end
+
+      specify '支払情報が精算済で追加されること' do
+        expect(@event.items.first.payments.last.status).to eq(true)
       end
     end
   end

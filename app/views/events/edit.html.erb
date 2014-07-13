@@ -87,7 +87,7 @@
                   <div class="col-lg-10">
                     <select class="form-control" id="source_user_ids" multiple="multiple" name="payment[source_user_ids][]">
                       <% @event.users.each do |u| %>
-                        <option value="<%= u.id %>"><%= u.name %></option>
+                        <option value="<%= @event.participants.find_by(user_id: u.id).id %>"><%= u.name %></option>
                       <% end %>
                     </select>
                   </div>
@@ -103,21 +103,15 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label" for="item_name">品目</label>
+                  <label class="col-lg-2 control-label" for="item_memo">品目</label>
                   <div class="col-lg-10">
-                    <input class="form-control" type="text" id="item_name" name="item[name]">
+                    <input class="form-control" type="text" id="item_memo" name="item[memo]">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label" for="item_price">金額</label>
                   <div class="col-lg-10">
                     <input class="form-control" type="text" id="item_price" name="item[price]">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 control-label" for="item_memo">メモ</label>
-                  <div class="col-lg-10">
-                    <textarea class="form-control" rows="3" id="item_memo" name="item[memo]"></textarea>
                   </div>
                 </div>
               <% end %>
