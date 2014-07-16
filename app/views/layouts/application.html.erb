@@ -18,6 +18,9 @@
     <%= stylesheet_link_tag "lumen", :media => "all" %>
 
     <%= yield(:page_stylesheet) if content_for?(:page_stylesheet) %>
+    <% if content_for?(:use_datepicker) %>
+      <link href="/assets/datepicker.css" media="all" rel="stylesheet">
+    <% end %>
 
   </head>
   <body>
@@ -34,5 +37,18 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "lumen" %>
     <%= yield(:page_javascript) if content_for?(:page_javascript) %>
+    <% if content_for?(:use_datepicker) %>
+      <script src="/assets/bootstrap-datepicker.js"></script>
+      <script src="/assets/bootstrap-datepicker.ja.js"></script>
+      <script type="text/javascript">
+        $(function() {
+          $('#<%= yield(:use_datepicker) %>').datepicker({
+            format: 'yyyy/mm/dd',
+            language: 'ja',
+            autoclose:'true'
+          });
+        });
+      </script>
+    <% end %>
   </body>
 </html>
