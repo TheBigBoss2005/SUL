@@ -2,6 +2,7 @@ require 'date'
 
 class Event < ActiveRecord::Base
   has_many :participants
+  has_many :users, through: :participants
   has_many :items
   before_save :escape_tag
 

@@ -1,2 +1,5 @@
 Rails.application.config.assets.precompile += %w( lumen.css )
 Rails.application.config.assets.precompile += %w( lumen.js )
+Rails.application.config.assets.precompile += %w( datepicker.css )
+Rails.application.config.assets.precompile += %w( bootstrap-datepicker.js )
+Rails.application.config.assets.precompile += %w( bootstrap-datepicker.ja.js )
