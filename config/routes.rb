@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 
-  resources :events
+  resources :events do
+    resources :payments
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
