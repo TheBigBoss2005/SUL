@@ -2,7 +2,6 @@
 
 FactoryGirl.define do
   factory :payment do
-    participant_id 1
     price 1234
     status false
   end
