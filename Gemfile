@@ -24,6 +24,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'twitter-bootswatch-rails', '~> 3.1.1'
 gem 'twitter-bootswatch-rails-helpers'
 
+# user certification gem
+gem 'devise'
+
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'

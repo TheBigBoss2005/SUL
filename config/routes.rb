@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 
