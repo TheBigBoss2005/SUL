@@ -47,4 +47,11 @@ describe Payment do
       expect(subject).not_to be_valid
     end
   end
+
+  describe '精算完了の操作をした場合' do
+    it 'はstatusがtrueに変更される' do
+      subject.finished
+      expect(subject.status).to be_true
+    end
+  end
 end

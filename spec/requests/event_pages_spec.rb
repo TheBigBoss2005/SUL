@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe 'EventPages' do
+  before(:each) do
+    @alpha = FG.create(:user, name: 'Alpha')
+    @bravo = FG.create(:user, name: 'Bravo')
+    @charlie = FG.create(:user, name: 'Charlie')
+    @delta = FG.create(:user, name: 'Delta')
+    @echo = FG.create(:user, name: 'Echo')
+  end
+  after(:each) { User.destroy_all }
 
   describe 'GET /events/new' do
     before { visit new_event_path }
@@ -27,24 +35,18 @@ describe 'EventPages' do
     end
 
     describe '登録済ユーザが存在するとき' do
-      before do
-        User.create(name: 'Alpha')
-        User.create(name: 'Bravo')
-        User.create(name: 'Charlie')
-        @user = User.first
-        visit new_event_path
-      end
 
       it 'は参加者選択欄を含む' do
         expect(page).to have_selector(:xpath, "//select[@id='event_participant_ids']")
       end
 
       it 'は参加者選択肢に登録済ユーザを含む' do
-        expect(page).to have_selector(:xpath, "//option[@value='#{@user.id}']")
+        expect(page).to have_selector(:xpath, "//option[@value='#{@alpha.id}']")
       end
     end
 
     describe '登録済ユーザが存在しないとき' do
+      before(:each) { User.delete_all }
       it 'は参加者選択欄を含まない' do
         expect(page).not_to have_selector(:xpath, "//select[@id='event_participant_ids']")
       end
@@ -57,13 +59,7 @@ describe 'EventPages' do
   end
 
   describe 'イベント作成機能' do
-    before do
-      User.create(name: 'Alpha')
-      User.create(name: 'Bravo')
-      User.create(name: 'Charlie')
-      @user = User.first
-      visit new_event_path
-    end
+    before { visit new_event_path }
     let(:submit) { '確定' }
     let(:cancel) { 'キャンセル' }
 
@@ -100,7 +96,7 @@ describe 'EventPages' do
         fill_in 'Name', with: 'test event'
         fill_in 'Memo', with: 'hoge'
         fill_in 'Date', with: '2014/01/01'
-        select @user.name, from: 'event_participant_ids'
+        select @alpha.name, from: 'event_participant_ids'
       end
 
       specify 'イベントが追加されること' do
@@ -125,19 +121,16 @@ describe 'EventPages' do
 
   describe 'GET /event/*/edit' do
     before do
-      @dest_user = User.create(name: 'Alpha')
-      User.create(name: 'Bravo')
-      @source_user = User.create(name: 'Charlie')
-      User.create(name: 'Delta')
-      User.create(name: 'Echo')
+      @dest_user = @alpha
+      @source_user = @charlie
 
       @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
-      @event.participants.create(user_id: User.first.id)
-      @event.participants.create(user_id: User.third.id)
-      @event.participants.create(user_id: User.fifth.id)
+      @event.participants.create(user_id: @alpha)
+      @event.participants.create(user_id: @charlie.id)
+      @event.participants.create(user_id: @echo.id)
 
-      @participant = User.first
-      @out_of_participant = User.second
+      @participant = @alpha
+      @out_of_participant = @bravo
 
       visit edit_event_path(@event)
     end
