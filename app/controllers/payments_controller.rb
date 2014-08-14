@@ -4,11 +4,11 @@ class PaymentsController < ApplicationController
 
   def destroy
     payment = Payment.find(params[:id])
-    payment.destroy
+    payment.finished
     flash[:success] = '清算が完了しました！'
-    redirect_to event_payments_path
+    redirect_to payments_path
   rescue
     flash[:error] = '不正な操作です。再度やり直して下さい'
-    redirect_to event_payments_path
+    redirect_to payments_path
   end
 end
