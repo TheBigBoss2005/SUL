@@ -1,5 +1,6 @@
 class PaymentsController < ApplicationController
   def index
+    @payments = Payment.page params[:page]
   end
 
   def destroy

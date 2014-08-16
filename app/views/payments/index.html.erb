@@ -11,24 +11,43 @@
     </div>
   </div>
 
-  <div class="bs-docs-section">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
-        <div class="well bs-component">
-          <table class="table table-borderd">
-          </table>
+  <% if Payment.count == 0 %>
+    支払情報がありません
+  <% else %>
+    <%= paginate @payments %>
+    <div class="bs-docs-section">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div class="well bs-component">
+            <table class="table table-borderd">
+              <thead>
+                <tr>
+                  <th>イベント</th>
+                  <th>支払元</th>
+                  <th>支払先</th>
+                  <th>品目</th>
+                  <th>金額</th>
+                  <th>精算状況</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @payments.each do |payment| %>
+                  <tr>
+                    <td><%= Event.find_by(id: Item.find_by(id: payment.item_id).event_id).name %></td>
+                    <td><%= User.find_by(id: Participant.find_by(user_id: payment.participant_id).id ).name %></td>
+                    <td><%= User.find_by(id: Item.find_by(id: payment.item_id).user_id).name %></td>
+                    <td><%= Item.find_by(id: payment.item_id).memo %></td>
+                    <td><%= payment.price %></td>
+                    <td><%= payment.status ? '精算済' : '未精算' %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="bs-docs-section">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
-        <div class="well bs-component">
-        </div>
-      </div>
-    </div>
-  </div>
+    <%= paginate @payments %>
+  <% end %>
 
 </div>
