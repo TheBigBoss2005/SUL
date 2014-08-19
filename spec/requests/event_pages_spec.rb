@@ -68,12 +68,10 @@ describe 'EventPages' do
     let(:cancel) { 'キャンセル' }
 
     describe 'キャンセルボタン押下時' do
-      before { click_button cancel }
+      before { click_link cancel }
 
-      # 本来はイベント一覧ページに遷移する
-      # イベント一覧ページができるまではイベント作成画面に戻る
-      specify 'イベント作成画面に戻ること' do
-        expect(page).to have_title('新規イベント作成')
+      specify 'イベントリスト画面に戻ること' do
+        expect(page).to have_title('イベントリスト')
       end
     end
 
@@ -111,10 +109,9 @@ describe 'EventPages' do
         expect { click_button submit }.to change(Participant, :count).by(1)
       end
 
-      # 本来はイベント一覧ページに遷移する
-      # イベント一覧ページができるまではイベント作成画面に戻る
-      specify 'イベント作成画面に戻ること' do
-        expect(page).to have_title('新規イベント作成')
+      specify 'イベントリスト画面に戻ること' do
+        click_button submit
+        expect(page).to have_title('イベントリスト')
       end
 
       specify 'エラーメッセージが表示されないこと' do

@@ -1,8 +1,8 @@
 class EventsController < ApplicationController
   def index
-  @event=Event.all
-  @participants=Participant.all
-end
+    @event = Event.all
+    @participants = Participant.all
+  end
 
   def new
     @event = Event.new
@@ -19,9 +19,7 @@ end
         end
       end
       flash[:success] = "イベント#{@event.name}を作成しました"
-      # event一覧ページができたらそっちに遷移する
-      # それまではイベント作成ページに戻る
-      redirect_to action: 'new'
+      redirect_to action: 'index'
     else
       render 'new'
     end
