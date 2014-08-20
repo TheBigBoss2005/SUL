@@ -201,8 +201,7 @@ describe 'EventPages' do
     end
 
     it 'は支払先リストに参加済の参加者を含む' do
-      pending 'なぜかエラーになる。だれか直してhelp me'
-      expect(page).to have_selector(:xpath, "//option[@value='#{@participant.id}'][../@id='dest_user_id']")
+      expect(page).to have_selector(:xpath, "//option[@value='#{@alpha.id}'][../@id='dest_user_id']")
     end
 
     it 'は品目入力欄を含む' do
