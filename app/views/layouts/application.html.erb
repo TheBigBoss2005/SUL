@@ -22,6 +22,13 @@
       <%= stylesheet_link_tag "datepicker", :media => "all" %>
     <% end %>
 
+    <!-- Javascripts
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <%= javascript_include_tag "lumen" %>
+    <%= javascript_include_tag "bootstrap-datepicker" %>
+    <%= javascript_include_tag "bootstrap-datepicker.ja" %>
+    <%= yield(:page_javascript) if content_for?(:page_javascript) %>
   </head>
   <body>
 
@@ -32,14 +39,7 @@
 
     <%= render partial: 'layouts/footer' %>
 
-    <!-- Javascripts
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <%= javascript_include_tag "lumen" %>
-    <%= yield(:page_javascript) if content_for?(:page_javascript) %>
     <% if content_for?(:use_datepicker) %>
-      <%= javascript_include_tag "bootstrap-datepicker" %>
-      <%= javascript_include_tag "bootstrap-datepicker.ja" %>
       <script type="text/javascript">
         $(function() {
           $('#<%= yield(:use_datepicker) %>').datepicker({
