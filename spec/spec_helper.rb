@@ -70,4 +70,9 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  # for Devise
+  # @see http://easyramble.com/request-spec-on-devise-login.html
+  config.include Devise::TestHelpers, type: :controller
+  config.include RequestHelpers, type: :request
 end

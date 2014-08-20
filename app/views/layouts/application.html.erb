@@ -27,12 +27,14 @@
 
     <%= render partial: 'layouts/header' %>
     <section class="main-contents">
-      <% if notice %>
-        <p class="alert alert-notice"><%= notice %></p>
-      <% end %>
-      <% if alert %>
-        <p class="alert alert-error"><%= alert %></p>
-      <% end %>
+      <div class="container error-msg">
+        <% if notice %>
+          <div class="alert alert-info"><%= notice %></div>
+        <% end %>
+        <% if alert %>
+          <div class="alert alert-danger"><%= alert %></div>
+        <% end %>
+      </div>
 	    <%= yield %>
     </section>
 
