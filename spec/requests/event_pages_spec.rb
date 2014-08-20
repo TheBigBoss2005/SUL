@@ -73,6 +73,7 @@ describe 'EventPages' do
       sign_in @alpha
       visit new_event_path
     end
+
     let(:submit) { '確定' }
     let(:cancel) { 'キャンセル' }
 
