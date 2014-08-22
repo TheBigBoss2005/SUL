@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   def index
-    @payments = Payment.page params[:page]
+    @payments = initialize_grid(Payment, include: [:item, :participant])
   end
 
   def destroy

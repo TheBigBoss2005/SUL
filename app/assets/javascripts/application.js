@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap.min
+//= require wice_grid

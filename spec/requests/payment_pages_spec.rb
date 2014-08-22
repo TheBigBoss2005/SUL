@@ -33,7 +33,7 @@ describe 'PaymentPages' do
       expect(page).to have_content('Bravo')
     end
 
-    it 'は支払情報(支払先ユーザ名名)が表示される' do
+    it 'は支払情報(支払先ユーザ名)が表示される' do
       expect(page).to have_content('Alpha')
     end
 

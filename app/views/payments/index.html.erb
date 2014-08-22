@@ -14,40 +14,35 @@
   <% if Payment.count == 0 %>
     支払情報がありません
   <% else %>
-    <%= paginate @payments %>
     <div class="bs-docs-section">
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
-          <div class="well bs-component">
-            <table class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>イベント</th>
-                  <th>支払元</th>
-                  <th>支払先</th>
-                  <th>品目</th>
-                  <th>金額</th>
-                  <th>精算状況</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @payments.each do |payment| %>
-                  <tr>
-                    <td><%= Event.find_by(id: Item.find_by(id: payment.item_id).event_id).name %></td>
-                    <td><%= User.find_by(id: Participant.find_by(id: payment.participant_id).user_id ).name %></td>
-                    <td><%= User.find_by(id: Item.find_by(id: payment.item_id).user_id).name %></td>
-                    <td><%= Item.find_by(id: payment.item_id).memo %></td>
-                    <td><%= payment.price %></td>
-                    <td><%= payment.status ? '精算済' : '未精算' %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
+          <%= grid(@payments, upper_pagination_panel: true) do |g|
+            g.column name: 'ID' do |p|
+              p.id
+            end
+            g.column name: 'イベント', attribute: 'event_id', model: 'Item', ordering: false do |p|
+              p.item.event.name
+            end
+            g.column name: '支払元', attribute: 'user_id', model: 'Participant', ordering: false do |p|
+              p.participant.user.name
+            end
+            g.column name: '支払先', attribute: 'user_id', model: 'Item', ordering: false do |p|
+              p.item.user.name
+            end
+            g.column name: '品目', attribute: 'memo', model: 'Item', ordering: false do |p|
+              p.item.memo
+            end
+            g.column name: '金額' do |p|
+              p.price
+            end
+            g.column name: '精算状況' do |p|
+              p.status? ? '精算済' : '未精算'
+            end
+          end -%>
         </div>
       </div>
     </div>
-    <%= paginate @payments %>
   <% end %>
 
 </div>
