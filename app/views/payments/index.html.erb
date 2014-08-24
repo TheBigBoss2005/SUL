@@ -1,0 +1,48 @@
+<% provide(:title, '支払情報一覧') %>
+<div class="container">
+
+  <div class="bs-docs-section">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2">
+        <div class="page-header">
+          <h1>支払情報一覧</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if Payment.count == 0 %>
+    支払情報がありません
+  <% else %>
+    <div class="bs-docs-section">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <%= grid(@payments, upper_pagination_panel: true) do |g|
+            g.column name: 'ID' do |p|
+              p.id
+            end
+            g.column name: 'イベント', attribute: 'event_id', model: 'Item', ordering: false do |p|
+              p.item.event.name
+            end
+            g.column name: '支払元', attribute: 'user_id', model: 'Participant', ordering: false do |p|
+              p.participant.user.name
+            end
+            g.column name: '支払先', attribute: 'user_id', model: 'Item', ordering: false do |p|
+              p.item.user.name
+            end
+            g.column name: '品目', attribute: 'memo', model: 'Item', ordering: false do |p|
+              p.item.memo
+            end
+            g.column name: '金額' do |p|
+              p.price
+            end
+            g.column name: '精算状況', attribute: 'status' do |p|
+              p.status? ? '精算済' : '未精算'
+            end
+          end -%>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>

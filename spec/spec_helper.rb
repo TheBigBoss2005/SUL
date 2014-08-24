@@ -50,4 +50,24 @@ RSpec.configure do |config|
 
   # url path
   config.include Rails.application.routes.url_helpers
+
+  # FactoryGirl
+  FG = FactoryGirl
+
+  config.before(:all) do
+    FG.reload
+  end
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
