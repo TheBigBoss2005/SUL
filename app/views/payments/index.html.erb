@@ -36,7 +36,7 @@
             g.column name: '金額' do |p|
               p.price
             end
-            g.column name: '精算状況' do |p|
+            g.column name: '精算状況', attribute: 'status' do |p|
               p.status? ? '精算済' : '未精算'
             end
           end -%>
