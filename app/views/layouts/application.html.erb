@@ -26,9 +26,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "lumen" %>
+    <%= yield(:page_javascript) if content_for?(:page_javascript) %>
     <%= javascript_include_tag "bootstrap-datepicker" %>
     <%= javascript_include_tag "bootstrap-datepicker.ja" %>
-    <%= yield(:page_javascript) if content_for?(:page_javascript) %>
   </head>
   <body>
 
@@ -47,11 +47,6 @@
             autoclose:'true'
           });
         });
-      </script>
-    <% end %>
-    <% if content_for?(:payment_status_value) %>
-      <script type="text/javascript">
-
       </script>
     <% end %>
   </body>
