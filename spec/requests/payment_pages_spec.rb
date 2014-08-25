@@ -6,12 +6,12 @@ describe 'PaymentPages' do
       User.create(name: 'Alpha')
       User.create(name: 'Bravo')
       User.create(name: 'Charlie')
-      event = Event.create(name: 'fuga', memo: 'hoge', date: '2014/01/01')
-      event.participants.create(user_id: User.first.id)
-      event.participants.create(user_id: User.second.id)
-      event.participants.create(user_id: User.third.id)
-      item = event.items.create(user_id: User.first.id, memo: 'fuga', price: 123)
-      item.payments.create(participant_id: event.participants.second.id,
+      @event = Event.create(name: 'fuga', memo: 'hoge', date: '2014/01/01')
+      @event.participants.create(user_id: User.first.id)
+      @event.participants.create(user_id: User.second.id)
+      @event.participants.create(user_id: User.third.id)
+      item = @event.items.create(user_id: User.first.id, memo: 'fuga', price: 123)
+      item.payments.create(participant_id: @event.participants.second.id,
                            price: 234, status: false)
       visit payments_path
     end

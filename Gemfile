@@ -27,9 +27,6 @@ gem 'twitter-bootswatch-rails-helpers'
 # Paginater
 gem 'kaminari'
 
-# Grid
-gem 'wice_grid'
-
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
