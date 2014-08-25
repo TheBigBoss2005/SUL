@@ -1,5 +1,7 @@
 class PaymentsController < ApplicationController
   def index
+    @users = User.all
+    @events = Event.all
     @payments = Payment.page params[:page]
   end
 

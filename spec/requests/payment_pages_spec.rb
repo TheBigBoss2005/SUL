@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'PaymentPages' do
   describe 'GET /payments/index' do
     before do
-      User.create(name: 'Alpha')
+      @user = User.create(name: 'Alpha')
       User.create(name: 'Bravo')
       User.create(name: 'Charlie')
       @event = Event.create(name: 'fuga', memo: 'hoge', date: '2014/01/01')
@@ -43,6 +43,22 @@ describe 'PaymentPages' do
 
     it 'は支払情報(精算状況)が表示される' do
       expect(page).to have_content('未精算')
+    end
+
+    it 'は「イベントでフィルタ」プルダウンメニューが表示される' do
+      expect(page).to have_selector(:xpath, "//select[@id='filter_by_event']")
+    end
+
+    it 'は「イベントでフィルタ」選択肢にイベントを含む' do
+      expect(page).to have_selector(:xpath, "//option[@value='#{@event.id}'][../@id='filter_by_event']")
+    end
+
+    it 'は「ユーザでフィルタ」プルダウンメニューが表示される' do
+      expect(page).to have_selector(:xpath, "//select[@id='filter_by_user']")
+    end
+
+    it 'は「ユーザでフィルタ」選択肢にユーザを含む' do
+      expect(page).to have_selector(:xpath, "//option[@value='#{@user.id}'][../@id='filter_by_user']")
     end
 
     describe '支払情報が存在しないとき' do
