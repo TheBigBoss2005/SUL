@@ -11,8 +11,10 @@ describe 'PaymentPages' do
       @event.participants.create(user_id: User.second.id)
       @event.participants.create(user_id: User.third.id)
       item = @event.items.create(user_id: User.first.id, memo: 'fuga', price: 123)
-      item.payments.create(participant_id: @event.participants.second.id,
+      @p1 = item.payments.create(participant_id: @event.participants.second.id,
                            price: 234, status: false)
+      @p2 = item.payments.create(participant_id: @event.participants.first.id,
+                           price: 234, status: true)
       visit payments_path
     end
     title = '支払情報一覧'
@@ -41,8 +43,12 @@ describe 'PaymentPages' do
       expect(page).to have_content(234)
     end
 
-    it 'は支払情報(精算状況)が表示される' do
-      expect(page).to have_content('未精算')
+    it 'は精算済支払情報に「精算済」が表示される' do
+      expect(page).to have_content('精算済')
+    end
+
+    it 'は未精算支払情報に「精算用チェックボックス」が表示される' do
+      expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@id='#{@p1.id}']")
     end
 
     it 'は「イベントでフィルタ」プルダウンメニューが表示される' do
@@ -59,6 +65,18 @@ describe 'PaymentPages' do
 
     it 'は「ユーザでフィルタ」選択肢にユーザを含む' do
       expect(page).to have_selector(:xpath, "//option[@value='#{@user.id}'][../@id='filter_by_user']")
+    end
+
+    it 'は「未精算のみ表示」チェックボックスが表示される' do
+      expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@id='only_non_settleup']")
+    end
+
+    it 'は「再表示」ボタンが表示される' do
+      expect(page).to have_selector(:xpath, "//button[@id='reload']")
+    end
+
+    it 'は「精算画面へ」ボタンが表示される' do
+      expect(page).to have_selector(:xpath, "//button[@id='settleup']")
     end
 
     describe '支払情報が存在しないとき' do
