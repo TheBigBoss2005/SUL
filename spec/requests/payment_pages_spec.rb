@@ -119,6 +119,17 @@ describe 'PaymentPages' do
       end
     end
 
+    describe '「未精算のみ表示」を選んで「再表示」ボタンをおしたとき' do
+      before do
+        check 'only_non_settleup'
+        click_button '再表示'
+      end
+
+      it 'は精算済支払情報に「精算済」が表示される' do
+        expect(page).not_to have_content('精算済')
+      end
+    end
+
     describe '「再表示」ボタンをおしたとき' do
       before do
         click_button '再表示'

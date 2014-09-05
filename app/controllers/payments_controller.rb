@@ -15,6 +15,10 @@ class PaymentsController < ApplicationController
       end
     end
 
+    if params[:only_non_settleup] && params[:only_non_settleup] == 'yes'
+      payments = payments.reject { |p| p.status == true }
+    end
+
     @payments = Kaminari.paginate_array(payments).page params[:page] if payments
   end
 
