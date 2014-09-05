@@ -3,18 +3,23 @@ require 'spec_helper'
 describe 'PaymentPages' do
   describe 'GET /payments/index' do
     before do
-      @user = User.create(name: 'Alpha')
-      User.create(name: 'Bravo')
-      User.create(name: 'Charlie')
+      @user_alpha = User.create(name: 'Alpha')
+      @user_bravo = User.create(name: 'Bravo')
+      @user_charlie = User.create(name: 'Charlie')
       @event = Event.create(name: 'fuga', memo: 'hoge', date: '2014/01/01')
-      @event.participants.create(user_id: User.first.id)
-      @event.participants.create(user_id: User.second.id)
-      @event.participants.create(user_id: User.third.id)
-      item = @event.items.create(user_id: User.first.id, memo: 'fuga', price: 123)
+      @event.participants.create(user_id: @user_alpha.id)
+      @event.participants.create(user_id: @user_bravo.id)
+      @event.participants.create(user_id: @user_charlie.id)
+      item = @event.items.create(user_id: @user_alpha.id, memo: 'fuga', price: 123)
       @p1 = item.payments.create(participant_id: @event.participants.second.id,
                            price: 234, status: false)
       @p2 = item.payments.create(participant_id: @event.participants.first.id,
                            price: 234, status: true)
+
+      @event2 = Event.create(name: 'other_event', memo: 'hoge', date: '2014/01/01')
+      @event2.participants.create(user_id: @user_alpha.id)
+      item = @event2.items.create(user_id: @user_alpha.id, memo: 'out_of_filter_item', price: 123)
+      item.payments.create(participant_id: @event2.participants.first.id, price: 123, status: false)
       visit payments_path
     end
     title = '支払情報一覧'
@@ -64,7 +69,7 @@ describe 'PaymentPages' do
     end
 
     it 'は「ユーザでフィルタ」選択肢にユーザを含む' do
-      expect(page).to have_selector(:xpath, "//option[@value='#{@user.id}'][../@id='filter_by_user']")
+      expect(page).to have_selector(:xpath, "//option[@value='#{@user_alpha.id}'][../@id='filter_by_user']")
     end
 
     it 'は「未精算のみ表示」チェックボックスが表示される' do
@@ -89,6 +94,38 @@ describe 'PaymentPages' do
 
       it '支払情報がない旨のメッセージが表示されること' do
         expect(page).to have_content('支払情報がありません')
+      end
+    end
+
+    describe '「イベントでフィルタ」を選んで「再表示」ボタンをおしたとき' do
+      before do
+        select @event.name, from: 'filter_by_event'
+        click_button '再表示'
+      end
+
+      it '支払情報一覧画面に他のイベントが表示されない' do
+        expect(page).not_to have_content('out_of_filter_item')
+      end
+    end
+
+    describe '「ユーザでフィルタ」を選んで「再表示」ボタンをおしたとき' do
+      before do
+        select @user_bravo.name, from: 'filter_by_user'
+        click_button '再表示'
+      end
+
+      it '支払情報一覧画面に他のユーザが表示されない' do
+        expect(page).not_to have_content('out_of_filter_item')
+      end
+    end
+
+    describe '「再表示」ボタンをおしたとき' do
+      before do
+        click_button '再表示'
+      end
+
+      it '支払情報一覧画面に遷移する' do
+        expect(page).to have_title('支払情報一覧')
       end
     end
   end

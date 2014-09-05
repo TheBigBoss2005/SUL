@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <%= form_tag '/payments' do %>
+  <%= form_tag '/payments', method: 'get', id: 'list_config' do %>
     <div class="bs-docs-section">
       <fieldset>
         <div class="form-group">
@@ -19,10 +19,10 @@
             <div class="col-lg-8 col-lg-offset-2">
               <%= label :payment, :filter_by_event, 'イベントでフィルタ', class: 'col-lg-2 control-label' %>
               <div class="col-lg-4">
-                <select id='filter_by_event' class="form-control">
+                <select id='filter_by_event' name='filter_by_event' class="form-control">
                   <option value='none'>しない</option>
                   <% @events.each do |e| %>
-                    <option value='<%= e.id %>'><%= e.name %></option>
+                    <option value='<%= e.id %>' <%= 'selected' if e.id == params[:filter_by_event].to_i %>><%= e.name %></option>
                   <% end %>
                 </select>
               </div>
@@ -35,10 +35,10 @@
             <div class="col-lg-8 col-lg-offset-2">
               <%= label :payment, :filter_by_user, 'ユーザでフィルタ', class: 'col-lg-2 control-label' %>
               <div class="col-lg-4">
-                <select id='filter_by_user' class="form-control">
+                <select id='filter_by_user' name='filter_by_user' class="form-control">
                   <option value='none'>しない</option>
                   <% @users.each do |u| %>
-                    <option value='<%= u.id %>'><%= u.name %></option>
+                    <option value='<%= u.id %>' <%= 'selected' if u.id == params[:filter_by_user].to_i %>><%= u.name %></option>
                   <% end %>
                 </select>
               </div>
@@ -58,10 +58,16 @@
             </div>
           </div>
         </div>
+      </fieldset>
+    </div>
+  <% end %>
 
+  <%= form_tag '/payments/confirm', id: 'payment_form' do %>
+    <div class="bs-docs-section">
+      <fieldset>
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
-            <% if @payments.count == 0 %>
+            <% if @payments == nil || @payments.count == 0 %>
               支払情報がありません
             <% else %>
               <%= paginate @payments %>
@@ -105,7 +111,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </fieldset>
     </div>
   <% end %>
 </div>

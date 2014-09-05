@@ -2,7 +2,20 @@ class PaymentsController < ApplicationController
   def index
     @users = User.all
     @events = Event.all
-    @payments = Payment.page params[:page]
+    payments = Payment.all
+
+    if params[:filter_by_event] && params[:filter_by_event] != 'none'
+      payments = payments.reject { |p| p.item.event.id != params[:filter_by_event].to_i }
+    end
+
+    if params[:filter_by_user] && params[:filter_by_user] != 'none'
+      payments = payments.reject do |p|
+        p.item.user.id != params[:filter_by_user].to_i &&
+        p.participant.user.id != params[:filter_by_user].to_i
+      end
+    end
+
+    @payments = Kaminari.paginate_array(payments).page params[:page] if payments
   end
 
   def destroy
