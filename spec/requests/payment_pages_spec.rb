@@ -53,7 +53,7 @@ describe 'PaymentPages' do
     end
 
     it 'は未精算支払情報に「精算用チェックボックス」が表示される' do
-      expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@id='#{@p1.id}']")
+      expect(page).to have_selector(:xpath, "//input[@type='checkbox'][@value='#{@p1.id}']")
     end
 
     it 'は「イベントでフィルタ」プルダウンメニューが表示される' do
@@ -137,6 +137,29 @@ describe 'PaymentPages' do
 
       it '支払情報一覧画面に遷移する' do
         expect(page).to have_title('支払情報一覧')
+      end
+    end
+
+    describe '何も選択せず「精算画面へ」ボタンをおしたとき' do
+      before do
+        # click_button '精算画面へ'
+      end
+
+      it '支払情報一覧画面から遷移しない' do
+        # BOSSと連携する
+        # expect(page).to have_title('支払情報一覧')
+      end
+    end
+
+    describe '何か選択して「精算画面へ」ボタンをおしたとき' do
+      before do
+        check "payment_#{@p1.id}"
+        # click_button '精算画面へ'
+      end
+
+      it '精算画面に遷移する' do
+        # BOSSと連携する
+        # expect(page).to have_title('ｘｘｘ')
       end
     end
   end

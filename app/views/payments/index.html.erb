@@ -93,7 +93,7 @@
                       <% if payment.status? %>
                         <td>精算済</td>
                       <% else %>
-                        <td><label><input type='checkbox' id='<%= payment.id %>'>精算する</label></td>
+                        <td><label><input type='checkbox' id='payment_<%= payment.id %>' name='payments[]' value='<%= payment.id %>'>精算する</label></td>
                       <% end %>
                     </tr>
                   <% end %>
@@ -114,4 +114,11 @@
       </fieldset>
     </div>
   <% end %>
+
+  <script>
+    $("button[id=settleup]").click(function() {
+      var $checked = $('#payment_form [id=payments]:checked');
+      if ($checked == null) { return false; } else { return true; }
+    })
+  </script>
 </div>
