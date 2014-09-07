@@ -23,7 +23,7 @@ end
         end
       end
       flash[:success] = "イベント#{@event.name}を作成しました"
-      redirect_to action: 'index'
+      redirect_to @event
     else
       render 'new'
     end
@@ -46,7 +46,7 @@ end
       # create item and payment
       create_payment if @item = create_item
       @item.delete if @item.payments.empty?
-      redirect_to action: 'edit'
+      redirect_to @event
     else
       render 'edit'
     end

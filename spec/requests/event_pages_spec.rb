@@ -109,9 +109,9 @@ describe 'EventPages' do
         expect { click_button submit }.to change(Participant, :count).by(1)
       end
 
-      specify 'イベントリスト画面に戻ること' do
+      specify 'イベント参照画面に遷移すること' do
         click_button submit
-        expect(page).to have_title('イベントリスト')
+        expect(page).to have_title('イベント参照')
       end
 
       specify 'エラーメッセージが表示されないこと' do
@@ -257,10 +257,8 @@ describe 'EventPages' do
     describe 'キャンセルボタン押下時' do
       before { click_button cancel }
 
-      # 本来はイベント詳細ページに遷移する
-      # イベント詳細ページができるまではイベント編集画面に戻る
-      specify 'イベント編集画面に戻ること' do
-        expect(page).to have_title('イベント編集')
+      specify 'イベント参照画面に遷移すること' do
+        expect(page).to have_title('イベント参照')
       end
     end
 
