@@ -11,38 +11,114 @@
     </div>
   </div>
 
-  <% if Payment.count == 0 %>
-    支払情報がありません
-  <% else %>
+  <%= form_tag '/payments', method: 'get', id: 'list_config' do %>
     <div class="bs-docs-section">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-          <%= grid(@payments, upper_pagination_panel: true) do |g|
-            g.column name: 'ID' do |p|
-              p.id
-            end
-            g.column name: 'イベント', attribute: 'event_id', model: 'Item', ordering: false do |p|
-              p.item.event.name
-            end
-            g.column name: '支払元', attribute: 'user_id', model: 'Participant', ordering: false do |p|
-              p.participant.user.name
-            end
-            g.column name: '支払先', attribute: 'user_id', model: 'Item', ordering: false do |p|
-              p.item.user.name
-            end
-            g.column name: '品目', attribute: 'memo', model: 'Item', ordering: false do |p|
-              p.item.memo
-            end
-            g.column name: '金額' do |p|
-              p.price
-            end
-            g.column name: '精算状況', attribute: 'status' do |p|
-              p.status? ? '精算済' : '未精算'
-            end
-          end -%>
+      <fieldset>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+              <%= label :payment, :filter_by_event, 'イベントでフィルタ', class: 'col-lg-2 control-label' %>
+              <div class="col-lg-4">
+                <select id='filter_by_event' name='filter_by_event' class="form-control">
+                  <option value='none'>しない</option>
+                  <% @events.each do |e| %>
+                    <option value='<%= e.id %>' <%= 'selected' if e.id == params[:filter_by_event].to_i %>><%= e.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+              <%= label :payment, :filter_by_user, 'ユーザでフィルタ', class: 'col-lg-2 control-label' %>
+              <div class="col-lg-4">
+                <select id='filter_by_user' name='filter_by_user' class="form-control">
+                  <option value='none'>しない</option>
+                  <% @users.each do |u| %>
+                    <option value='<%= u.id %>' <%= 'selected' if u.id == params[:filter_by_user].to_i %>><%= u.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-4 col-lg-offset-2">
+              <label>
+                <input type="checkbox" id="only_non_settleup" name="only_non_settleup" value="yes" <%= 'checked' if 'yes' == params[:only_non_settleup] %>>未精算のみ表示
+              </label>
+            </div>
+            <div class="col-lg-2 col-lg-offset-2">
+              <button id="reload" class="btn btn-default">再表示</button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
     </div>
   <% end %>
 
+  <%= form_tag '/payments/confirm', id: 'payment_form' do %>
+    <div class="bs-docs-section">
+      <fieldset>
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <% if @payments == nil || @payments.count == 0 %>
+              支払情報がありません
+            <% else %>
+              <%= paginate @payments %>
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>イベント</th>
+                    <th>支払元</th>
+                    <th>支払先</th>
+                    <th>品目</th>
+                    <th>金額</th>
+                    <th>精算状況</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @payments.each do |payment| %>
+                    <tr>
+                      <td><%= payment.item.event.name %></td>
+                      <td><%= payment.participant.user.name %></td>
+                      <td><%= payment.item.user.name %></td>
+                      <td><%= payment.item.memo %></td>
+                      <td><%= payment.price %></td>
+                      <% if payment.status? %>
+                        <td>精算済</td>
+                      <% else %>
+                        <td><label><input type='checkbox' id='payment_<%= payment.id %>' name='payment_ids[]' value='<%= payment.id %>'>精算する</label></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              <%= paginate @payments %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <div class="form-group">
+              <button id="settleup" class="btn btn-warning btn-lg">精算画面へ</button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  <% end %>
+
+  <script>
+    $("button[id=settleup]").click(function() {
+      var $checked = $('#payment_form [id=payments]:checked');
+      if ($checked == null) { return false; } else { return true; }
+    })
+  </script>
 </div>
