@@ -1,12 +1,17 @@
 require 'spec_helper'
 
 describe 'PaymentPages' do
+  it 'は未ログインユーザはアクセス出来ない' do
+    visit new_event_path
+    expect(page).to have_content('Welcome to SUL')
+  end
+
   describe 'GET /payments/index' do
     before do
-      @user_alpha = User.create(name: 'Alpha')
-      @user_bravo = User.create(name: 'Bravo')
-      @user_charlie = User.create(name: 'Charlie')
-      @event = Event.create(name: 'fuga', memo: 'hoge', date: '2014/01/01')
+      @user_alpha = FG.create(:user, name: 'Alpha')
+      @user_bravo = FG.create(:user, name: 'Bravo')
+      @user_charlie = FG.create(:user, name: 'Charlie')
+      @event = FG.create(:event, name: 'fuga', memo: 'hoge', date: '2014/01/01')
       @event.participants.create(user_id: @user_alpha.id)
       @event.participants.create(user_id: @user_bravo.id)
       @event.participants.create(user_id: @user_charlie.id)
@@ -16,10 +21,11 @@ describe 'PaymentPages' do
       @p2 = item.payments.create(participant_id: @event.participants.first.id,
                            price: 234, status: true)
 
-      @event2 = Event.create(name: 'other_event', memo: 'hoge', date: '2014/01/01')
+      @event2 = FG.create(:event, name: 'other_event', memo: 'hoge', date: '2014/01/01')
       @event2.participants.create(user_id: @user_alpha.id)
       item = @event2.items.create(user_id: @user_alpha.id, memo: 'out_of_filter_item', price: 123)
       item.payments.create(participant_id: @event2.participants.first.id, price: 123, status: false)
+      sign_in FG.create(:user)
       visit payments_path
     end
     title = '支払情報一覧'

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   before do
-    @user = User.new(name: 'Taro Yamada')
+    @user = FG.build(:user, name: 'Taro Yamada')
   end
 
   subject { @user }

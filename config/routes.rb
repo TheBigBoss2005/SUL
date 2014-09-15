@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # devise_for :users, only: [:sign_in, :sign_out, :session]
+  devise_for :users, only: [:session] do
+    get '/sign_in', to: 'devise/sessions#new', as: :new_user_session
+    get '/sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
+  end
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 

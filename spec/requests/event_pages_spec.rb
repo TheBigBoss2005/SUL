@@ -1,9 +1,23 @@
 require 'spec_helper'
 
 describe 'EventPages' do
+  it 'は未ログインユーザではアクセス出来ない' do
+    visit new_event_path
+    expect(page).to have_content('Welcome to SUL')
+  end
 
   describe 'GET /events/new' do
-    before { visit new_event_path }
+    before(:each) do
+      @alpha = FG.create(:user, name: 'Alpha')
+      @bravo = FG.create(:user, name: 'Bravo')
+      @charlie = FG.create(:user, name: 'Charlie')
+      @delta = FG.create(:user, name: 'Delta')
+      @echo = FG.create(:user, name: 'Echo')
+      sign_in @alpha
+      visit new_event_path
+    end
+    after(:each) { User.destroy_all }
+
     title = '新規イベント作成'
 
     it "は'#{title}'の見出しを表示する" do
@@ -27,30 +41,27 @@ describe 'EventPages' do
     end
 
     describe '登録済ユーザが存在するとき' do
-      before do
-        User.create(name: 'Alpha')
-        User.create(name: 'Bravo')
-        User.create(name: 'Charlie')
-        @user = User.first
-        visit new_event_path
-      end
-
       it 'は参加者選択欄を含む' do
         expect(page).to have_selector(:xpath, "//select[@id='event_participant_ids']")
       end
 
       it 'は参加者選択肢に登録済ユーザを含む' do
-        expect(page).to have_selector(:xpath, "//option[@value='#{@user.id}']")
+        expect(page).to have_selector(:xpath, "//option[@value='#{@alpha.id}']")
       end
     end
 
     describe '登録済ユーザが存在しないとき' do
+      before(:each) do
+        User.delete_all
+        visit new_event_path
+      end
+
       it 'は参加者選択欄を含まない' do
         expect(page).not_to have_selector(:xpath, "//select[@id='event_participant_ids']")
       end
 
-      it 'はユーザ登録メッセージを含む' do
-        expect(page).to have_content('ユーザ登録を行ってください')
+      it 'はログインページに遷移する' do
+        expect(page).to have_content('Welcome to SUL')
       end
 
     end
@@ -58,12 +69,11 @@ describe 'EventPages' do
 
   describe 'イベント作成機能' do
     before do
-      User.create(name: 'Alpha')
-      User.create(name: 'Bravo')
-      User.create(name: 'Charlie')
-      @user = User.first
+      @alpha = FG.create(:user, name: 'Alpha')
+      sign_in @alpha
       visit new_event_path
     end
+
     let(:submit) { '確定' }
     let(:cancel) { 'キャンセル' }
 
@@ -98,7 +108,7 @@ describe 'EventPages' do
         fill_in 'Name', with: 'test event'
         fill_in 'Memo', with: 'hoge'
         fill_in 'Date', with: '2014/01/01'
-        select @user.name, from: 'event_participant_ids'
+        select @alpha.name, from: 'event_participant_ids'
       end
 
       specify 'イベントが追加されること' do
@@ -120,21 +130,24 @@ describe 'EventPages' do
     end
   end
 
-  describe 'GET /event/*/edit' do
+  describe 'GET /event/:id/edit' do
     before do
-      @dest_user = User.create(name: 'Alpha')
-      User.create(name: 'Bravo')
-      @source_user = User.create(name: 'Charlie')
-      User.create(name: 'Delta')
-      User.create(name: 'Echo')
+      @alpha = FG.create(:user, name: 'Alpha')
+      @bravo = FG.create(:user, name: 'Bravo')
+      @charlie = FG.create(:user, name: 'Charlie')
+      @delta = FG.create(:user, name: 'Delta')
+      @echo = FG.create(:user, name: 'Echo')
+      sign_in @alpha
 
-      @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
-      @event.participants.create(user_id: User.first.id)
-      @event.participants.create(user_id: User.third.id)
-      @event.participants.create(user_id: User.fifth.id)
+      @dest_user = @alpha
+      @source_user = @charlie
 
-      @participant = User.first
-      @out_of_participant = User.second
+      @event = FG.create(:event)
+      @participant = FG.create(:participant, event: @event, user: @alpha)
+      FG.create(:participant, event: @event, user: @charlie)
+      FG.create(:participant, event: @event, user: @echo)
+
+      @out_of_participant = @bravo
 
       visit edit_event_path(@event)
     end
@@ -185,7 +198,7 @@ describe 'EventPages' do
     end
 
     it 'は支払先リストに参加済の参加者を含む' do
-      expect(page).to have_selector(:xpath, "//option[@value='#{@participant.id}'][../@id='dest_user_id']")
+      expect(page).to have_selector(:xpath, "//option[@value='#{@alpha.id}'][../@id='dest_user_id']")
     end
 
     it 'は品目入力欄を含む' do
@@ -234,11 +247,12 @@ describe 'EventPages' do
 
   describe 'イベント編集機能' do
     before do
-      User.create(name: 'Alpha')
-      User.create(name: 'Bravo')
-      User.create(name: 'Charlie')
-      User.create(name: 'Delta')
-      User.create(name: 'Echo')
+      @alpha = FG.create(:user, name: 'Alpha')
+      @bravo = FG.create(:user, name: 'Bravo')
+      @charlie = FG.create(:user, name: 'Charlie')
+      @delta = FG.create(:user, name: 'Delta')
+      @echo = FG.create(:user, name: 'Echo')
+      sign_in @alpha
 
       @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
       @event.participants.create(user_id: User.first.id)

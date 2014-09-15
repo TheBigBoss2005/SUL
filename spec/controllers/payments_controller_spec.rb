@@ -4,6 +4,7 @@ describe PaymentsController do
   describe '清算完了' do
     context 'の正常に清算出来た場合' do
       before(:each) do
+        sign_in FG.create(:user)
         @event = FG.create(:event)
         paymentor = FG.create(:user)
         item = FG.create(:item, user: paymentor, event: @event)

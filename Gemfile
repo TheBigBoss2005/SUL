@@ -26,6 +26,8 @@ gem 'twitter-bootswatch-rails-helpers'
 
 # Paginater
 gem 'kaminari'
+# user certification gem
+gem 'devise'
 
 group :development, :test do
   gem 'sqlite3'
