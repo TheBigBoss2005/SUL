@@ -110,6 +110,7 @@
         <div class="well bs-component">
 <p>
 <%=  link_to 'イベントを編集するよ',{controller: :events , action: :edit}  ,class: :"btn btn-success btn-lg" %>
+<%=  link_to '支払情報を登録するよ', new_event_item_path(@event), class: :"btn btn-success btn-lg" %>
 <%=  link_to 'イベントを見るよ',{controller: :events , action: :index}  ,class: :"btn btn-warning btn-lg" %>
 </p>
 </div>
