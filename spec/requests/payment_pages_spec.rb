@@ -37,6 +37,13 @@ describe 'PaymentPages' do
       end
     end
 
+    describe 'パン屑のトップ押下時' do
+      it 'はトップ画面に遷移する' do
+        click_on 'トップ'
+        expect(page).to have_title('sul')
+      end
+    end
+
     title = '支払情報一覧'
 
     it "は'#{title}'の見出しを表示する" do

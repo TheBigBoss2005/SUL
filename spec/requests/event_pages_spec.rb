@@ -33,6 +33,13 @@ describe 'EventPages' do
       end
     end
 
+    describe 'パン屑のイベント一覧押下時' do
+      it 'はイベント一覧画面に遷移する' do
+        click_on 'イベント一覧'
+        expect(page).to have_title('イベントリスト')
+      end
+    end
+
     title = '新規イベント作成'
 
     it "は'#{title}'の見出しを表示する" do
@@ -171,6 +178,13 @@ describe 'EventPages' do
       before { click_button '戻る' }
 
       specify 'イベント参照画面に戻ること' do
+        expect(page).to have_title('イベント参照')
+      end
+    end
+
+    describe 'パン屑のイベント詳細押下時' do
+      it 'はイベント詳細画面に遷移する' do
+        click_on 'イベント詳細'
         expect(page).to have_title('イベント参照')
       end
     end
