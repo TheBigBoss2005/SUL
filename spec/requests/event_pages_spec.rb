@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe 'EventPages' do
+  before(:each) do
+    @label_name = 'イベント名'
+    @label_memo = '概要'
+    @label_date = '開催日'
+    @label_participant = '参加者'
+  end
+
   it 'は未ログインユーザではアクセス出来ない' do
     visit new_event_path
     expect(page).to have_content('Welcome to SUL')
@@ -18,6 +25,14 @@ describe 'EventPages' do
     end
     after(:each) { User.destroy_all }
 
+    describe '戻るボタン押下時' do
+      before { click_on '戻る' }
+
+      specify 'イベント参照画面に戻ること' do
+        expect(page).to have_title('イベントリスト')
+      end
+    end
+
     title = '新規イベント作成'
 
     it "は'#{title}'の見出しを表示する" do
@@ -29,15 +44,15 @@ describe 'EventPages' do
     end
 
     it 'はイベント名入力欄(空)を含む' do
-      expect(page.find_field('Name').text).to be_empty
+      expect(page.find_field(@label_name).text).to be_empty
     end
 
     it 'はメモ入力欄(空)を含む' do
-      expect(page.find_field('Memo').text).to be_empty
+      expect(page.find_field(@label_memo).text).to be_empty
     end
 
     it 'は開催日入力欄(空)を含む' do
-      expect(page.find_field('Date').text).to be_empty
+      expect(page.find_field(@label_date).text).to be_empty
     end
 
     describe '登録済ユーザが存在するとき' do
@@ -75,7 +90,7 @@ describe 'EventPages' do
     end
 
     let(:submit) { '確定' }
-    let(:cancel) { 'キャンセル' }
+    let(:cancel) { '戻る' }
 
     describe 'キャンセルボタン押下時' do
       before { click_link cancel }
@@ -105,9 +120,9 @@ describe 'EventPages' do
 
     describe '有効な登録内容のとき' do
       before do
-        fill_in 'Name', with: 'test event'
-        fill_in 'Memo', with: 'hoge'
-        fill_in 'Date', with: '2014/01/01'
+        fill_in @label_name, with: 'test event'
+        fill_in @label_memo, with: 'hoge'
+        fill_in @label_date, with: '2014/01/01'
         select @alpha.name, from: 'event_participant_ids'
       end
 
@@ -151,6 +166,15 @@ describe 'EventPages' do
 
       visit edit_event_path(@event)
     end
+
+    describe '戻るボタン押下時' do
+      before { click_button '戻る' }
+
+      specify 'イベント参照画面に戻ること' do
+        expect(page).to have_title('イベント参照')
+      end
+    end
+
     title = 'イベント編集'
 
     it "は'#{title}'の見出しを表示する" do
@@ -162,15 +186,15 @@ describe 'EventPages' do
     end
 
     it 'はイベント名入力欄(変更前の値入力済)を含む' do
-      expect(page).to have_field('Name', with: @event.name)
+      expect(page).to have_field(@label_name, with: @event.name)
     end
 
     it 'はメモ入力欄(変更前の値入力済)を含む' do
-      expect(page).to have_field('Memo', with: @event.memo)
+      expect(page).to have_field(@label_memo, with: @event.memo)
     end
 
     it 'は開催日入力欄(変更前の値入力済)を含む' do
-      expect(page).to have_field('Date', with: @event.formatted_date)
+      expect(page).to have_field(@label_date, with: @event.formatted_date)
     end
 
     it 'は参加者選択欄を含む' do
@@ -266,7 +290,7 @@ describe 'EventPages' do
     end
 
     let(:submit) { '確定' }
-    let(:cancel) { 'キャンセル' }
+    let(:cancel) { '戻る' }
 
     describe 'キャンセルボタン押下時' do
       before { click_button cancel }
@@ -278,7 +302,7 @@ describe 'EventPages' do
 
     describe '無効な登録内容のとき' do
       before do
-        fill_in 'Name', with: ' '
+        fill_in @label_name, with: ' '
       end
 
       it 'イベントが更新されないこと' do
@@ -300,7 +324,7 @@ describe 'EventPages' do
 
     describe 'イベント基本情報が有効な変更内容のとき' do
       before do
-        fill_in 'Name', with: 'TEST EVENT'
+        fill_in @label_name, with: 'TEST EVENT'
         select @out_of_participant.name, from: 'event_participant_ids'
         click_button submit
       end

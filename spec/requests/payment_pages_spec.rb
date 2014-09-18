@@ -28,6 +28,15 @@ describe 'PaymentPages' do
       sign_in FG.create(:user)
       visit payments_path
     end
+
+    describe '戻るボタン押下時' do
+      before { click_on '戻る' }
+
+      specify 'イベント参照画面に戻ること' do
+        expect(page).to have_title('sul')
+      end
+    end
+
     title = '支払情報一覧'
 
     it "は'#{title}'の見出しを表示する" do
