@@ -29,18 +29,18 @@ describe 'EventPages' do
       before { click_on '戻る' }
 
       specify 'イベント参照画面に戻ること' do
-        expect(page).to have_title('イベントリスト')
+        expect(page).to have_title('イベント一覧')
       end
     end
 
     describe 'パン屑のイベント一覧押下時' do
       it 'はイベント一覧画面に遷移する' do
         click_on 'イベント一覧'
-        expect(page).to have_title('イベントリスト')
+        expect(page).to have_title('イベント一覧')
       end
     end
 
-    title = '新規イベント作成'
+    title = 'イベント作成'
 
     it "は'#{title}'の見出しを表示する" do
       expect(page).to have_content(title)
@@ -102,8 +102,8 @@ describe 'EventPages' do
     describe 'キャンセルボタン押下時' do
       before { click_link cancel }
 
-      specify 'イベントリスト画面に戻ること' do
-        expect(page).to have_title('イベントリスト')
+      specify 'イベント一覧画面に戻ること' do
+        expect(page).to have_title('イベント一覧')
       end
     end
 
@@ -116,7 +116,7 @@ describe 'EventPages' do
         before { click_button submit }
 
         specify 'イベント作成画面に戻ること' do
-          expect(page).to have_title('新規イベント作成')
+          expect(page).to have_title('イベント作成')
         end
 
         specify 'エラーメッセージが表示されること' do
@@ -182,9 +182,9 @@ describe 'EventPages' do
       end
     end
 
-    describe 'パン屑のイベント詳細押下時' do
-      it 'はイベント詳細画面に遷移する' do
-        click_on 'イベント詳細'
+    describe 'パン屑のイベント参照押下時' do
+      it 'はイベント参照画面に遷移する' do
+        click_on 'イベント参照'
         expect(page).to have_title('イベント参照')
       end
     end

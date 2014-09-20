@@ -16,7 +16,7 @@ crumb :new_event do |event|
 end
 
 crumb :show_event do |event|
-  link 'イベント詳細', event_path(event)
+  link 'イベント参照', event_path(event)
   parent :events
 end
 
