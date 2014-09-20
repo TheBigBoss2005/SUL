@@ -25,7 +25,18 @@ class PaymentsController < ApplicationController
   def destroy
     payment = Payment.find(params[:id])
     payment.finished
-    flash[:success] = '清算が完了しました！'
+    flash[:success] = '精算が完了しました！'
+    redirect_to payments_path
+  rescue
+    flash[:error] = '不正な操作です。再度やり直して下さい'
+    redirect_to payments_path
+  end
+
+  def bulk_destroy
+    payments = Payment.where(id: params[:payment_ids])
+    fail if payments.empty?
+    payments.each { |payment| payment.finished }
+    flash[:success] = '精算が完了しました！'
     redirect_to payments_path
   rescue
     flash[:error] = '不正な操作です。再度やり直して下さい'

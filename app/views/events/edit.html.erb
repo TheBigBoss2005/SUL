@@ -74,95 +74,11 @@
                   <% end %>
                 </div>
               </div>
-            </fieldset>
-            <fieldset>
-              <legend>支払情報の追加</legend>
-              <% if @event.users.empty? %>
-                <div class="form-group">
-                  <div class="col-lg-10 col-lg-offset-2">
-                    支払情報を登録する前に参加者を登録してください
-                  </div>
-                </div>
-              <% else %>
-                <div class="form-group">
-                  <label class="col-lg-2 control-label" for="payment_source_user_ids">支払元</label>
-                  <div class="col-lg-10">
-                    <select class="form-control" id="source_user_ids" multiple="multiple" name="payment[source_user_ids][]">
-                      <% @event.users.each do |u| %>
-                        <option value="<%= @event.participants.find_by(user_id: u.id).id %>"><%= u.name %></option>
-                      <% end %>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 control-label" for="dest_user">支払先</label>
-                  <div class="col-lg-10">
-                    <select class="form-control" id="dest_user_id" name="payment[dest_user_id]">
-                      <% @event.users.each do |u| %>
-                        <option value="<%= u.id %>"><%= u.name %></option>
-                      <% end %>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 control-label" for="item_memo">品目</label>
-                  <div class="col-lg-10">
-                    <input class="form-control" type="text" id="item_memo" name="item[memo]">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 control-label" for="item_price">金額</label>
-                  <div class="col-lg-10">
-                    <input class="form-control" type="text" id="item_price" name="item[price]">
-                  </div>
-                </div>
-              <% end %>
-            </fieldset>
-            <fieldset>
-              <legend>登録済支払情報</legend>
-              <% if @event.items.empty? %>
-                <div class="form-group">
-                  <div class="col-lg-10 col-lg-offset-2">
-                    登録済支払情報はありません
-                  </div>
-                </div>
-              <% else %>
-                <div class="form-group">
-                  <div class="col-lg-12">
-                    <table class="table table-striped table-hover">
-                      <thead>
-                        <tr>
-                          <th>支払元</th>
-                          <th>支払先</th>
-                          <th>品目</th>
-                          <th>金額</th>
-                          <th>精算状況</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% @event.items.each do |item| %>
-                          <% unless item.payments.empty? then %>
-                            <% item.payments.each do |payment| %>
-                              <tr>
-                                <td><%= User.find_by(id: Participant.find_by(id: payment.participant_id).user_id).name %></td>
-                                <td><%= User.find_by(id: item.user_id).name %></td>
-                                <td><%= item.memo %></td>
-                                <td><%= payment.price %></td>
-                                <td><%= payment.status ? '精算済' : '未精算' %></td>
-                              </tr>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              <% end %>
               <div class="form-group">
                 <div class="form-group">
                   <div class="col-lg-10 col-lg-offset-2">
                     <%= f.submit '確定', class: 'btn btn-primary btn-lg' %>
-                    <%= f.button '戻る', class: 'btn btn-default btn-lg' %>
+                    <%= link_to '戻る', event_path(@event), class: 'btn btn-default btn-lg' %>
                   </div>
                 </div>
               </div>

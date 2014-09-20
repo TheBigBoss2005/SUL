@@ -25,6 +25,11 @@ crumb :edit_event do |event|
   parent :show_event, event
 end
 
+crumb :new_item do |event|
+  link '支払登録', new_event_item_path(event)
+  parent :show_event, event
+end
+
 # crumb :project_issues do |project|
 #   link "Issues", project_issues_path(project)
 #   parent :project, project
