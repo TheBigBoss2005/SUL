@@ -7,8 +7,10 @@ Rails.application.routes.draw do
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 
-  resources :payments
-  resources :events
+  resources :payments, only: %w(index destroy)
+  resources :events do
+    resources :items
+  end
 
   delete '/payments/bulk_destroy', to: 'payments#bulk_destroy'
 
