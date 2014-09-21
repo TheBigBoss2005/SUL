@@ -29,6 +29,9 @@ gem 'kaminari'
 # user certification gem
 gem 'devise'
 
+# breadcrumbs
+gem 'gretel'
+
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'

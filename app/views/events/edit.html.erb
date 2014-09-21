@@ -1,5 +1,6 @@
 <% provide(:title, 'イベント編集') %>
 <% provide(:use_datepicker, 'event_date') %>
+<% breadcrumb :edit_event, @event %>
 <div class="container">
 
   <div class="bs-docs-section">
@@ -30,28 +31,28 @@
             <fieldset>
               <legend>イベント基本情報</legend>
               <div class="form-group">
-                <%= f.label :name, class: 'col-lg-2 control-label' %>
+                <%= f.label :name, 'イベント名', class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
                   <%= f.text_field :name, class: 'form-control' %>
                 </div>
               </div>
               <div class="form-group">
-                <%= f.label :memo, class: 'col-lg-2 control-label' %>
+                <%= f.label :memo, '概要', class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
                   <%= f.text_area :memo, class: 'form-control' %>
                 </div>
               </div>
               <div class="form-group">
-                <%= f.label :date, class: 'col-lg-2 control-label' %>
+                <%= f.label :date, '開催日', class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_field :date, value: @event.formatted_date, class: 'form-control', type: 'date' %>
+                  <%= f.text_field :date, value: @event.formatted_date, class: 'form-control', type: 'text', readonly: true %>
                 </div>
               </div>
               <div class="form-group">
-                <%= f.label :participants, class: 'col-lg-2 control-label' %>
+                <%= f.label :participants, '参加者', class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
                   <% if @event.users.empty? %>
-                    イベント参加中のユーザは存在しません   
+                    イベント参加中のユーザは存在しません
                   <% else %>
                     <ul>
                       <% @event.users.each do |u| %>
@@ -76,8 +77,8 @@
               <div class="form-group">
                 <div class="form-group">
                   <div class="col-lg-10 col-lg-offset-2">
-                    <%= link_to 'キャンセル', event_path(@event), class: 'btn btn-default btn-lg' %>
                     <%= f.submit '確定', class: 'btn btn-primary btn-lg' %>
+                    <%= link_to '戻る', event_path(@event), class: 'btn btn-default btn-lg' %>
                   </div>
                 </div>
               </div>

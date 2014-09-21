@@ -1,12 +1,13 @@
-<% provide(:title, '新規イベント作成') %>
+<% provide(:title, 'イベント作成') %>
 <% provide(:use_datepicker, 'event_date') %>
+<% breadcrumb :new_event, @event %>
 <div class="container">
 
   <div class="bs-docs-section">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2">
         <div class="page-header">
-          <h1>新規イベント作成</h1>
+          <h1>イベント作成</h1>
         </div>
       </div>
     </div>
@@ -29,25 +30,25 @@
             <% end%>
             <fieldset>
               <div class="form-group">
-                <%= f.label :name, class: 'col-lg-2 control-label' %>
+                <%= f.label :name, "イベント名", class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_field :name, class: 'form-control' %>
+                  <%= f.text_field :name, class: 'form-control', placeholder: 'イベント名を入力して下さい' %>
                 </div>
               </div>
               <div class="form-group">
-                <%= f.label :memo, class: 'col-lg-2 control-label' %>
+                <%= f.label :memo, "概要", class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_area :memo, class: 'form-control' %>
+                  <%= f.text_area :memo, class: 'form-control', placeholder: 'このイベントに関するメモを自由に入力して下さい' %>
                 </div>
               </div>
               <div class="form-group">
-                <%= f.label :date, class: 'col-lg-2 control-label' %>
+                <%= f.label :date, "開催日", class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_field :date, class: 'form-control', type: 'date' %>
+                  <%= f.text_field :date, class: 'form-control', type: 'text', placeholder: 'このイベントの開催日を入力して下さい', readonly: true %>
                 </div>
               </div>
               <div class="form-group">
-                <%= f.label :participants, class: 'col-lg-2 control-label' %>
+                <%= f.label :participants, "参加者", class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
                   <% if @users.empty? %>
                     イベントの参加者を選択するために、まずはユーザ登録を行ってください
@@ -58,8 +59,8 @@
               </div>
               <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                  <%= link_to 'キャンセル', @event, class: 'btn btn-default btn-lg' %>
                   <%= f.submit '確定', class: 'btn btn-primary btn-lg' %>
+                  <%= link_to '戻る', @event, class: 'btn btn-default btn-lg' %>
                 </div>
               </div>
             </fieldset>

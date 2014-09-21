@@ -18,9 +18,9 @@ describe 'Topページ' do
       expect(page).to have_css('a.btn-success', text: '精算するよ')
     end
 
-    it 'の「精算するよ」ボタンを押すと支払情報一覧ページに遷移する' do
+    it 'の「精算するよ」ボタンを押すと支払一覧ページに遷移する' do
       click_link '精算するよ'
-      expect(page).to have_title('支払情報一覧')
+      expect(page).to have_title('支払一覧')
     end
   end
 end

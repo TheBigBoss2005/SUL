@@ -1,11 +1,12 @@
-<% provide(:title, '支払情報一覧') %>
+<% provide(:title, '支払一覧') %>
+<% breadcrumb :payments %>
 <div class="container">
 
   <div class="bs-docs-section">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2">
         <div class="page-header">
-          <h1>支払情報一覧</h1>
+          <h1>支払一覧</h1>
         </div>
       </div>
     </div>
@@ -108,6 +109,7 @@
           <div class="col-lg-8 col-lg-offset-2">
             <div class="form-group">
               <button id="settleup" class="btn btn-warning btn-lg">精算画面へ</button>
+              <%= link_to "戻る", :root, class: :"btn btn-default btn-lg" %>
             </div>
           </div>
         </div>
