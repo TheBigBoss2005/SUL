@@ -27,8 +27,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "lumen" %>
     <%= yield(:page_javascript) if content_for?(:page_javascript) %>
-    <%= javascript_include_tag "bootstrap-datepicker" %>
-    <%= javascript_include_tag "bootstrap-datepicker.ja" %>
+    <% if content_for?(:datepicker_form) %>
+      <%= javascript_include_tag "bootstrap-datepicker", 'data-turbolinks-track' => true %>
+      <%= javascript_include_tag "bootstrap-datepicker.ja", 'data-turbolinks-track' => true %>
+      <%= javascript_include_tag "datepicker", 'data-turbolinks-track' => true %>
+    <% end %>
+    <%= javascript_include_tag "settleup", 'data-turbolinks-track' => true if content_for?(:settleup_form) %>
   </head>
   <body>
 
@@ -47,16 +51,5 @@
     </section>
 
     <%= render partial: 'layouts/footer' %>
-    <% if content_for?(:use_datepicker) %>
-      <script type="text/javascript">
-        $(function() {
-          $('#<%= yield(:use_datepicker) %>').datepicker({
-            format: 'yyyy/mm/dd',
-            language: 'ja',
-            autoclose:'true'
-          });
-        });
-      </script>
-    <% end %>
   </body>
 </html>
