@@ -1,4 +1,5 @@
 <% provide(:title, '支払一覧') %>
+<% provide(:settleup_form, true) %>
 <% breadcrumb :payments %>
 <div class="container">
 
@@ -116,11 +117,4 @@
       </fieldset>
     </div>
   <% end %>
-
-  <script>
-    $("button[id=settleup]").click(function() {
-      var $checked = $('#payment_form [id=payments]:checked');
-      if ($checked == null) { return false; } else { return true; }
-    })
-  </script>
 </div>
