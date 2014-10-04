@@ -90,4 +90,11 @@ describe User do
       expect(@user.dup.save).to be_false
     end
   end
+
+  describe User, '#login_id が半角英数字_以外の場合' do
+    specify '登録に失敗すること' do
+      @user.login_id = 'ほげ'
+      expect(@user.save).to be_false
+    end
+  end
 end

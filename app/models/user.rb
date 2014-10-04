@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
   validates :login_id,
             presence: { message: 'は入力が必須です' },
             length: { maximum: 20, message: 'は20文字以内で入力して下さい' },
-            uniqueness: { case_sensitive: false }
+            uniqueness: { case_sensitive: false },
+            format: { with: /\A[a-z0-9_]+\z/i, message: 'ログインIDは半角英数字_で入力して下さい' }
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
