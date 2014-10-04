@@ -5,5 +5,6 @@ FactoryGirl.define do
     password 'hogehoge'
     sequence(:email) { |n| "hoge#{n}@example.com" }
     sequence(:name) { |n| "user_#{n}" }
+    sequence(:login_id) { |n| "user_#{n}" }
   end
 end

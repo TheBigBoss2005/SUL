@@ -21,7 +21,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Twitter Bootstrap
-gem 'twitter-bootswatch-rails', '~> 3.1.1'
+gem 'twitter-bootswatch-rails'
 gem 'twitter-bootswatch-rails-helpers'
 
 # Paginater
