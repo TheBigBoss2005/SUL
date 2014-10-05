@@ -3,7 +3,7 @@
 ja:
   devise:
     confirmations:
-      confirmed: 'アカウントを登録しました。'
+      confirmed: 'ユーザーを登録しました。'
 #      confirmed: 'Your account was successfully confirmed. You are now signed in.'
       send_instructions: '登録方法を数分以内にメールでご連絡します。'
 #      send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'
@@ -12,15 +12,15 @@ ja:
     failure:
       already_authenticated: '既にログインしています。'
 #      already_authenticated: 'You are already signed in.'
-      inactive: 'アカウントがアクティベートされていません。'
+      inactive: 'ユーザーがアクティベートされていません。'
 #      inactive: 'Your account was not activated yet.'
-      invalid: 'メールアドレスかパスワードが違います。'
+      invalid: 'ログインID or メールアドレスかパスワードが違います。'
 #      invalid: 'Invalid email or password.'
       invalid_token: '認証キーが不正です。'
 #      invalid_token: 'Invalid authentication token.'
-      locked: 'あなたのアカウントは凍結されています。'
+      locked: 'あなたのユーザーは凍結されています。'
 #      locked: 'Your account is locked.'
-      not_found_in_database: 'メールアドレスかパスワードが違います。'
+      not_found_in_database: 'ログインID or メールアドレスかパスワードが違います。'
 #      not_found_in_database: "Invalid email or password."
       timeout: 'セッションがタイムアウトしました。もう一度ログインしてください。'
 #      timeout: 'Your session expired, please sign in again to continue.'
@@ -30,18 +30,18 @@ ja:
 #      unconfirmed: 'You have to confirm your account before continuing.'
     mailer:
       confirmation_instructions:
-        subject: 'アカウントの登録方法'
+        subject: 'ユーザーの登録方法'
 #        subject: 'Confirmation instructions'
       reset_password_instructions:
         subject: 'パスワードの再設定'
 #        subject: 'Reset password instructions'
       unlock_instructions:
-        subject: 'アカウントの凍結解除'
+        subject: 'ユーザーの凍結解除'
 #        subject: 'Unlock Instructions'
     omniauth_callbacks:
-      success: '%{kind} アカウントによる個人認証に成功しました。'
+      success: '%{kind} ユーザーによる個人認証に成功しました。'
 #      success: 'Successfully authenticated from %{kind} account.'
-      failure: '%{kind} アカウントによる個人認証に失敗しました（%{reason}）。'
+      failure: '%{kind} ユーザーによる個人認証に失敗しました（%{reason}）。'
 #      failure: 'Could not authenticate you from %{kind} because "%{reason}".'
     passwords:
       no_token: "このページにはアクセスできません。パスワード復元メールのリンクをコピーした場合には、正しい URL かどうかをお確かめください。"
@@ -55,19 +55,19 @@ ja:
       updated_not_active: 'パスワードが正しく変更されました。'
 #      updated_not_active: 'Your password was changed successfully.'
     registrations:
-      destroyed: 'アカウントを削除しました。またのご利用をお待ちしております。'
+      destroyed: 'ユーザーを削除しました。またのご利用をお待ちしております。'
 #      destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
-      signed_up: 'ようこそ！ アカウント登録を受け付けました。'
+      signed_up: 'ようこそ！ ユーザー登録を受け付けました。'
 #      signed_up: 'Welcome! You have signed up successfully.'
-      signed_up_but_inactive: 'アカウント登録を受け付けました。しかしまだ有効化されておらず、ログインできません。'
+      signed_up_but_inactive: 'ユーザー登録を受け付けました。しかしまだ有効化されておらず、ログインできません。'
 #      signed_up_but_inactive: 'You have signed up successfully. However, we could not sign you in because your account is not yet activated.'
-      signed_up_but_locked: 'アカウント登録を受け付けました。しかし、アカウントが凍結されているためログインできません。'
+      signed_up_but_locked: 'ユーザー登録を受け付けました。しかし、ユーザーが凍結されているためログインできません。'
 #      signed_up_but_locked: 'You have signed up successfully. However, we could not sign you in because your account is locked.'
-      signed_up_but_unconfirmed: '本人確認用のメールがあなたのEメールアドレスに送られました。メール内のリンクからアカウントを有効化させてください。'
+      signed_up_but_unconfirmed: '本人確認用のメールがあなたのEメールアドレスに送られました。メール内のリンクからユーザーを有効化させてください。'
 #      signed_up_but_unconfirmed: 'A message with a confirmation link has been sent to your email address. Please open the link to activate your account.'
-      updated: 'アカウント情報を変更しました。'
+      updated: 'ユーザー情報を変更しました。'
 #      updated: 'You updated your account successfully.'
-      update_needs_confirmation: "アカウント情報を変更しましたが、Eメールアドレスの本人確認用Eメールをお送りしましたので、中のリンクをクリックして証明してください。"
+      update_needs_confirmation: "ユーザー情報を変更しましたが、Eメールアドレスの本人確認用Eメールをお送りしましたので、中のリンクをクリックして証明してください。"
 #      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address."
     sessions:
       signed_in: 'ログインしました。'
@@ -75,11 +75,11 @@ ja:
       signed_out: 'ログアウトしました。'
 #      signed_out: 'Signed out successfully.'
     unlocks:
-      send_instructions: 'アカウントの凍結解除方法を数分以内にメールでご連絡します。'
+      send_instructions: 'ユーザーの凍結解除方法を数分以内にメールでご連絡します。'
 #      send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
-      send_paranoid_instructions: 'アカウントが見つかった場合、アカウントの凍結解除方法を数分以内にメールでご連絡します。'
+      send_paranoid_instructions: 'ユーザーが見つかった場合、ユーザーの凍結解除方法を数分以内にメールでご連絡します。'
 #      send_paranoid_instructions: 'If your account exists, you will receive an email with instructions about how to unlock it in a few minutes.'
-      unlocked: 'アカウントを凍結解除しました。ログインしています。'
+      unlocked: 'ユーザーを凍結解除しました。ログインしています。'
 #      unlocked: 'Your account was successfully unlocked. You are now signed in.'
   errors:
     messages:
