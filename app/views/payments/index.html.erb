@@ -95,7 +95,7 @@
                       <% if payment.status? %>
                         <td>精算済</td>
                       <% else %>
-                        <td><label><input type='checkbox' id='payment_<%= payment.id %>' name='payment_ids[]' value='<%= payment.id %>'>精算する</label></td>
+                        <td><input type='checkbox' id='payment_<%= payment.id %>' name='payment_ids[]' value='<%= payment.id %>'>精算する</td>
                       <% end %>
                     </tr>
                   <% end %>
