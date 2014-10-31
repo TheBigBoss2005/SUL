@@ -30,6 +30,11 @@ crumb :new_item do |event|
   parent :show_event, event
 end
 
+crumb :confirm_payments do
+  link '精算確認', confirm_payments_path
+  parent :payments
+end
+
 # crumb :project_issues do |project|
 #   link "Issues", project_issues_path(project)
 #   parent :project, project

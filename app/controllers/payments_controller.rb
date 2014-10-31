@@ -22,6 +22,10 @@ class PaymentsController < ApplicationController
     @payments = Kaminari.paginate_array(payments).page params[:page] if payments
   end
 
+  def confirm
+    @payments = Payment.where(id: params[:payment_ids]).reject { |p| p.status == true }
+  end
+
   def destroy
     payment = Payment.find(params[:id])
     payment.finished

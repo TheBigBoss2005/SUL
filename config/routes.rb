@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # devise_for :users
   devise_for :users, only: [:session, :registrations] do
     get '/sign_in', to: 'devise/sessions#new', as: :new_user_session
@@ -9,7 +10,12 @@ Rails.application.routes.draw do
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 
-  resources :payments, only: %w(index destroy)
+  resources :payments, only: %w(index destroy) do
+    collection do
+      post 'confirm'
+    end
+  end
+
   resources :events do
     resources :items
   end
