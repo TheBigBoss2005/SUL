@@ -10,10 +10,10 @@ Rails.application.routes.draw do
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 
-  resources :payments, only: %w(index) do
+  resources :payments, only: %w(index destroy) do
     collection do
-      post 'confirm'
-      delete 'bulk_destroy'
+      post 'confirm', to: 'payments#confirm'
+      delete 'bulk_destroy', to: 'payments#bulk_destroy'
     end
   end
 
