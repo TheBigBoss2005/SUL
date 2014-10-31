@@ -24,6 +24,4 @@
 1. あとはRailsアプリのデプロイと同じ
 
 ## ほか(技術情報等)
-### CI
-CIはTravis CIを使っています。
-https://travis-ci.org/TheBigBoss2005/SUL
+[![Build Status](https://travis-ci.org/TheBigBoss2005/SUL.svg?branch=master)](https://travis-ci.org/TheBigBoss2005/SUL)
