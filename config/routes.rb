@@ -10,17 +10,16 @@ Rails.application.routes.draw do
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 
-  resources :payments, only: %w(index destroy) do
+  resources :payments, only: %w(index) do
     collection do
       post 'confirm'
+      delete 'bulk_destroy'
     end
   end
 
   resources :events do
     resources :items
   end
-
-  delete '/payments/bulk_destroy', to: 'payments#bulk_destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
