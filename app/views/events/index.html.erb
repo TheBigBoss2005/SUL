@@ -24,20 +24,24 @@
                 <th>参加者</th>
                 <th>開催日</th>
             </tr>
-            <% @event.each do |ev|%>
+            <% @events.each do |event|%>
             <tr>
-              <td><%= link_to '詳細' , ev %></td>
-              <td><%= ev.id %></td>
-              <td><%= ev.name %></td>
-              <td><%= ev.memo %></td>
+              <td><%= link_to '詳細' , event %></td>
+              <td><%= event.id %></td>
+              <td><%= event.name %></td>
+              <td><%= event.memo.blank? ? '(未入力)' : event.memo %></td>
               <td>
+                <% if event.users.blank? %>
+                  (無し)
+                <% else %>
                 <ul>
-                  <%ev.users.each do |u| %>
+                  <% event.users.each do |u| %>
                     <li><%= u.name %></li>
                   <%end %>
                 </ul>
+                <%end %>
               </td>
-              <td><%= ev.formatted_date %></td>
+              <td><%= event.formatted_date.blank? ? '(未入力)' : event.formatted_date %></td>
             </tr>
             <% end %>
           </table>
