@@ -130,63 +130,52 @@ describe 'EventPages' do
     end
   end
 
-describe 'GET /event/' do
+  describe 'GET /event/' do
     before(:each)  do
-       @alpha = FG.create(:user, name: 'Alpha')
-          @bravo = FG.create(:user, name: 'Bravo')
-          @charlie = FG.create(:user, name: 'Charlie')
-          @delta = FG.create(:user, name: 'Delta')
-          @echo = FG.create(:user, name: 'Echo')
-          sign_in @alpha
+      @alpha = FG.create(:user, name: 'Alpha')
+      @bravo = FG.create(:user, name: 'Bravo')
+      @charlie = FG.create(:user, name: 'Charlie')
+      @delta = FG.create(:user, name: 'Delta')
+      @echo = FG.create(:user, name: 'Echo')
+      sign_in @alpha
+      @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
+      @event.participants.create(user_id: User.first.id)
+      @event.participants.create(user_id: User.third.id)
+      @event.participants.create(user_id: User.fifth.id)
+      @participant = User.first
+      @out_of_participant = User.second
 
-          @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
-          @event.participants.create(user_id: User.first.id)
-          @event.participants.create(user_id: User.third.id)
-          @event.participants.create(user_id: User.fifth.id)
-
-          @participant = User.first
-          @out_of_participant = User.second
-
-          visit events_path
+      visit events_path
     end
     after(:each) { User.destroy_all }
-
     it 'はイベント名が正しく表示されていること' do
-            expect(page).to have_content('test event')
-          end
-          
-          it 'はイベント詳細が正しく表示されていること' do
-            expect(page).to have_content('hoge')
-          end
+      expect(page).to have_content('test event')
+    end
+    it 'はイベント詳細が正しく表示されていること' do
+      expect(page).to have_content('hoge')
+    end
+    it 'はイベント日が正しく表示されていること' do
+      expect(page).to have_content('2014/01/01')
+    end
+    it 'はイベント参加者１が正しく表示されていること' do
+      expect(page).to have_content('Alpha')
+    end
+    it 'はイベント参加者2が正しく表示されていること' do
+      expect(page).to have_content('Charlie')
+    end
+    it 'はイベント参加者3が正しく表示されていること' do
+      expect(page).to have_content('Echo')
+    end
+    it 'はイベント参加者4が表示されないこと' do
+      expect(page).not_to have_content('Bravo')
+    end
+    it 'はイベント参加者5が表示されないこと' do
+      expect(page).not_to have_content('Delta')
+    end
 
-          it 'はイベント日が正しく表示されていること' do
-            expect(page).to have_content('2014/01/01')
-          end
-
-              it 'はイベント参加者１が正しく表示されていること' do
-            expect(page).to have_content('Alpha')
-          end
-
-              it 'はイベント参加者2が正しく表示されていること' do
-            expect(page).to have_content('Charlie')
-          end
-
-              it 'はイベント参加者3が正しく表示されていること' do
-            expect(page).to have_content('Echo')
-          end
-
-              it 'はイベント参加者4が表示されないこと' do
-            expect(page).not_to have_content('Bravo')
-          end
-
-              it 'はイベント参加者5が表示されないこと' do
-            expect(page).not_to have_content('Delta')
-          end
-
-    /Button Test/
     describe 'イベントを作るよボタン押下時' do
       before do
-          click_link 'イベントを作るよ'
+        click_link 'イベントを作るよ'
       end
 
       specify 'イベント作成画面に遷移すること' do
@@ -194,37 +183,31 @@ describe 'GET /event/' do
       end
     end
 
-    /Button Test/
     describe '詳細リンク押下時' do
-            before do
-               click_link '詳細'
-            end
-             it 'はイベント名が正しく表示されていること' do
-              expect(page).to have_content('test event')
-            end
-            
-            it 'はイベント詳細が正しく表示されていること' do
-              expect(page).to have_content('hoge')
-            end
+      before do
+        click_link '詳細'
+      end
 
-            it 'はイベント日が正しく表示されていること' do
-              expect(page).to have_content('2014/01/01')
-            end
-
-                it 'はイベント参加者１が正しく表示されていること' do
-              expect(page).to have_content('Alpha')
-            end
-
-                it 'はイベント参加者2が正しく表示されていること' do
-              expect(page).to have_content('Charlie')
-            end
-
-                it 'はイベント参加者3が正しく表示されていること' do
-              expect(page).to have_content('Echo')
-            end
+      it 'はイベント名が正しく表示されていること' do
+        expect(page).to have_content('test event')
+      end
+      it 'はイベント詳細が正しく表示されていること' do
+        expect(page).to have_content('hoge')
+      end
+      it 'はイベント日が正しく表示されていること' do
+        expect(page).to have_content('2014/01/01')
+      end
+      it 'はイベント参加者１が正しく表示されていること' do
+        expect(page).to have_content('Alpha')
+      end
+      it 'はイベント参加者2が正しく表示されていること' do
+        expect(page).to have_content('Charlie')
+      end
+      it 'はイベント参加者3が正しく表示されていること' do
+        expect(page).to have_content('Echo')
+      end
     end
-end
-
+  end
 
   describe 'GET /event/:id/edit' do
     before do
