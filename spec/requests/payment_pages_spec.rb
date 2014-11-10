@@ -15,11 +15,11 @@ describe 'PaymentPages' do
       @event.participants.create(user_id: @user_alpha.id)
       @event.participants.create(user_id: @user_bravo.id)
       @event.participants.create(user_id: @user_charlie.id)
-      item = @event.items.create(user_id: @user_alpha.id, memo: 'fuga', price: 123)
+      item = @event.items.create(user_id: @user_alpha.id, memo: 'fuga', price: 2468)
       @p1 = item.payments.create(participant_id: @event.participants.second.id,
-                           price: 234, status: false)
+                           price: 1234, status: false)
       @p2 = item.payments.create(participant_id: @event.participants.first.id,
-                           price: 234, status: true)
+                           price: 1234, status: true)
 
       @event2 = FG.create(:event, name: 'other_event', memo: 'hoge', date: '2014/01/01')
       @event2.participants.create(user_id: @user_alpha.id)
@@ -67,7 +67,7 @@ describe 'PaymentPages' do
     end
 
     it 'は支払(金額)が表示される' do
-      expect(page).to have_content(234)
+      expect(page).to have_content('1,234')
     end
 
     it 'は精算済支払に「精算済」が表示される' do

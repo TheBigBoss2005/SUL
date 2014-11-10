@@ -91,7 +91,7 @@
                       <td><%= payment.participant.user.name %></td>
                       <td><%= payment.item.user.name %></td>
                       <td><%= payment.item.memo %></td>
-                      <td><%= payment.price %></td>
+                      <td><%= number_with_delimiter(payment.price, delimiter: ',') %></td>
                       <% if payment.status? %>
                         <td>精算済</td>
                       <% else %>
