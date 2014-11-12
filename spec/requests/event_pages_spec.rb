@@ -228,6 +228,34 @@ describe 'EventPages' do
       it 'はイベント参加者3が正しく表示されていること' do
         expect(page).to have_content('Echo')
       end
+      it 'は支払情報が未登録であるメッセージが表示されていること' do
+        expect(page).to have_content('登録済支払情報はありません')
+      end
+    end
+
+    describe '詳細ボタン押下時(支払情報ありのとき)' do
+      before do
+        item = @event.items.create(user_id: @alpha.id, memo: 'fuga', price: 1234)
+        @p1 = item.payments.create(participant_id: @event.participants.second.id,
+                                   price: 1000, status: false)
+        @p2 = item.payments.create(participant_id: @event.participants.first.id,
+                                   price: 234, status: true)
+        click_link '詳細'
+      end
+
+      it 'は品目が表示されていること' do
+        expect(page).to have_content('fuga')
+      end
+
+      it '金額が表示されていること' do
+        expect(page).to have_content('1,000')
+        expect(page).to have_content('234')
+      end
+
+      it 'は精算状況が表示されていること' do
+        expect(page).to have_content('未精算')
+        expect(page).to have_content('精算済')
+      end
     end
   end
 

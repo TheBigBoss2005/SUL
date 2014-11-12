@@ -82,10 +82,10 @@
                           <% unless item.payments.empty? then %>
                             <% item.payments.each do |payment| %>
                               <tr>
-                                <td><%= User.find_by(id: Participant.find_by(id: payment.participant_id).user_id).name %></td>
-                                <td><%= User.find_by(id: item.user_id).name %></td>
+                                <td><%= payment.participant.user.name %></td>
+                                <td><%= item.user.name %></td>
                                 <td><%= item.memo %></td>
-                                <td><%= payment.price %></td>
+                                <td><%= number_with_delimiter(payment.price, delimiter: ',') %></td>
                                 <td><%= payment.status ? '精算済' : '未精算' %></td>
                               </tr>
                             <% end %>
