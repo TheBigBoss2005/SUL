@@ -28,7 +28,7 @@ describe 'EventPages' do
     describe '戻るボタン押下時' do
       before { click_on '戻る' }
 
-      specify 'イベント参照画面に戻ること' do
+      it 'イベント参照画面に戻ること' do
         expect(page).to have_title('イベント一覧')
       end
     end
@@ -101,7 +101,7 @@ describe 'EventPages' do
     describe 'キャンセルボタン押下時' do
       before { click_link cancel }
 
-      specify 'イベント一覧画面に戻ること' do
+      it 'イベント一覧画面に戻ること' do
         expect(page).to have_title('イベント一覧')
       end
     end
@@ -114,11 +114,11 @@ describe 'EventPages' do
       describe '確定ボタン押下時' do
         before { click_button submit }
 
-        specify 'イベント作成画面に戻ること' do
+        it 'イベント作成画面に戻ること' do
           expect(page).to have_title('イベント作成')
         end
 
-        specify 'エラーメッセージが表示されること' do
+        it 'エラーメッセージが表示されること' do
           expect(page).to have_content('Error')
         end
       end
@@ -132,20 +132,20 @@ describe 'EventPages' do
         select @alpha.name, from: 'event_participant_ids'
       end
 
-      specify 'イベントが追加されること' do
+      it 'イベントが追加されること' do
         expect { click_button submit }.to change(Event, :count).by(1)
       end
 
-      specify 'イベント参加者が追加されること' do
+      it 'イベント参加者が追加されること' do
         expect { click_button submit }.to change(Participant, :count).by(1)
       end
 
-      specify 'イベント参照画面に遷移すること' do
+      it 'イベント参照画面に遷移すること' do
         click_button submit
         expect(page).to have_title('イベント参照')
       end
 
-      specify 'エラーメッセージが表示されないこと' do
+      it 'エラーメッセージが表示されないこと' do
         expect(page).not_to have_content('Error')
       end
     end
@@ -168,7 +168,7 @@ describe 'EventPages' do
     describe '戻るボタン押下時' do
       before { click_on '戻る' }
 
-      specify 'イベント参照画面に戻ること' do
+      it 'イベント参照画面に戻ること' do
         expect(page).to have_title('イベント参照')
       end
     end
