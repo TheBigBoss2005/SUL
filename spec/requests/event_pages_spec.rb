@@ -235,11 +235,16 @@ describe 'EventPages' do
 
     describe '詳細ボタン押下時(支払情報ありのとき)' do
       before do
-        item = @event.items.create(user_id: @alpha.id, memo: 'fuga', price: 1234)
-        @p1 = item.payments.create(participant_id: @event.participants.second.id,
+        item1 = @event.items.create(user_id: @alpha.id, memo: 'fuga', price: 1234)
+        @p1 = item1.payments.create(participant_id: @event.participants.first.id,
                                    price: 1000, status: false)
-        @p2 = item.payments.create(participant_id: @event.participants.first.id,
+        @p2 = item1.payments.create(participant_id: @event.participants.second.id,
                                    price: 234, status: true)
+        item2 = @event.items.create(user_id: @charlie.id, memo: 'fuga', price: 2345)
+        @p3 = item2.payments.create(participant_id: @event.participants.first.id,
+                                   price: 2000, status: false)
+        @p4 = item2.payments.create(participant_id: @event.participants.second.id,
+                                   price: 345, status: true)
         click_link '詳細'
       end
 
@@ -255,6 +260,13 @@ describe 'EventPages' do
       it 'は精算状況が表示されていること' do
         expect(page).to have_content('未精算')
         expect(page).to have_content('精算済')
+      end
+
+      it 'は支払情報が品目降順かつ支払元昇順で表示されること' do
+        expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[4 and text()='2,000']")
+        expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[4 and text()='345']")
+        expect(page).to have_selector(:xpath, "//tbody/tr[3]/td[4 and text()='1,000']")
+        expect(page).to have_selector(:xpath, "//tbody/tr[4]/td[4 and text()='234']")
       end
     end
   end

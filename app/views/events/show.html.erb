@@ -78,9 +78,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% @event.items.each do |item| %>
+                        <% @event.items.order(id: :desc).each do |item| %>
                           <% unless item.payments.empty? then %>
-                            <% item.payments.each do |payment| %>
+                            <% item.payments.order(participant_id: :asc).each do |payment| %>
                               <tr>
                                 <td><%= payment.participant.user.name %></td>
                                 <td><%= item.user.name %></td>
