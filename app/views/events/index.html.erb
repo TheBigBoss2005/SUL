@@ -45,12 +45,8 @@
                 <% if event.users.blank? %>
                   (無し)
                 <% else %>
-                <ul>
-                  <% event.users.each do |u| %>
-                    <li><%= u.name %></li>
-                  <%end %>
-                </ul>
-                <%end %>
+                 <%= event.users.count %>名
+                 <% end %>
               </td>
               <td><%= event.formatted_date.blank? ? '(未入力)' : event.formatted_date %></td>
             </tr>

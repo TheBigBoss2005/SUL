@@ -179,20 +179,8 @@ describe 'EventPages' do
     it 'はイベント日が正しく表示されていること' do
       expect(page).to have_content('2014/01/01')
     end
-    it 'はイベント参加者１が正しく表示されていること' do
-      expect(page).to have_content('Alpha')
-    end
-    it 'はイベント参加者2が正しく表示されていること' do
-      expect(page).to have_content('Charlie')
-    end
-    it 'はイベント参加者3が正しく表示されていること' do
-      expect(page).to have_content('Echo')
-    end
-    it 'はイベント参加者4が表示されないこと' do
-      expect(page).not_to have_content('Bravo')
-    end
-    it 'はイベント参加者5が表示されないこと' do
-      expect(page).not_to have_content('Delta')
+    it 'はイベント参加者数が正しく表示されていること' do
+      expect(page).to have_content('3名')
     end
 
     describe 'イベントを作るよボタン押下時' do
