@@ -6,6 +6,11 @@ describe 'EventPages' do
     @label_memo = '概要'
     @label_date = '開催日'
     @label_participant = '参加者'
+    @alpha = FG.create(:user, name: 'Alpha')
+    @bravo = FG.create(:user, name: 'Bravo')
+    @charlie = FG.create(:user, name: 'Charlie')
+    @delta = FG.create(:user, name: 'Delta')
+    @echo = FG.create(:user, name: 'Echo')
   end
 
   it 'は未ログインユーザではアクセス出来ない' do
@@ -15,11 +20,6 @@ describe 'EventPages' do
 
   describe 'GET /events/new' do
     before(:each) do
-      @alpha = FG.create(:user, name: 'Alpha')
-      @bravo = FG.create(:user, name: 'Bravo')
-      @charlie = FG.create(:user, name: 'Charlie')
-      @delta = FG.create(:user, name: 'Delta')
-      @echo = FG.create(:user, name: 'Echo')
       sign_in @alpha
       visit new_event_path
     end
@@ -28,7 +28,7 @@ describe 'EventPages' do
     describe '戻るボタン押下時' do
       before { click_on '戻る' }
 
-      specify 'イベント参照画面に戻ること' do
+      it 'イベント参照画面に戻ること' do
         expect(page).to have_title('イベント一覧')
       end
     end
@@ -91,7 +91,6 @@ describe 'EventPages' do
 
   describe 'イベント作成機能' do
     before do
-      @alpha = FG.create(:user, name: 'Alpha')
       sign_in @alpha
       visit new_event_path
     end
@@ -102,7 +101,7 @@ describe 'EventPages' do
     describe 'キャンセルボタン押下時' do
       before { click_link cancel }
 
-      specify 'イベント一覧画面に戻ること' do
+      it 'イベント一覧画面に戻ること' do
         expect(page).to have_title('イベント一覧')
       end
     end
@@ -115,11 +114,11 @@ describe 'EventPages' do
       describe '確定ボタン押下時' do
         before { click_button submit }
 
-        specify 'イベント作成画面に戻ること' do
+        it 'イベント作成画面に戻ること' do
           expect(page).to have_title('イベント作成')
         end
 
-        specify 'エラーメッセージが表示されること' do
+        it 'エラーメッセージが表示されること' do
           expect(page).to have_content('Error')
         end
       end
@@ -133,20 +132,20 @@ describe 'EventPages' do
         select @alpha.name, from: 'event_participant_ids'
       end
 
-      specify 'イベントが追加されること' do
+      it 'イベントが追加されること' do
         expect { click_button submit }.to change(Event, :count).by(1)
       end
 
-      specify 'イベント参加者が追加されること' do
+      it 'イベント参加者が追加されること' do
         expect { click_button submit }.to change(Participant, :count).by(1)
       end
 
-      specify 'イベント参照画面に遷移すること' do
+      it 'イベント参照画面に遷移すること' do
         click_button submit
         expect(page).to have_title('イベント参照')
       end
 
-      specify 'エラーメッセージが表示されないこと' do
+      it 'エラーメッセージが表示されないこと' do
         expect(page).not_to have_content('Error')
       end
     end
@@ -261,15 +260,7 @@ describe 'EventPages' do
 
   describe 'GET /event/:id/edit' do
     before do
-      @alpha = FG.create(:user, name: 'Alpha')
-      @bravo = FG.create(:user, name: 'Bravo')
-      @charlie = FG.create(:user, name: 'Charlie')
-      @delta = FG.create(:user, name: 'Delta')
-      @echo = FG.create(:user, name: 'Echo')
       sign_in @alpha
-
-      @dest_user = @alpha
-      @source_user = @charlie
 
       @event = FG.create(:event)
       @participant = FG.create(:participant, event: @event, user: @alpha)
@@ -284,7 +275,7 @@ describe 'EventPages' do
     describe '戻るボタン押下時' do
       before { click_on '戻る' }
 
-      specify 'イベント参照画面に戻ること' do
+      it 'イベント参照画面に戻ること' do
         expect(page).to have_title('イベント参照')
       end
     end
@@ -331,76 +322,65 @@ describe 'EventPages' do
     end
   end
 
-  describe 'イベント編集機能' do
+  describe 'GET /events/:id' do
     before do
-      @alpha = FG.create(:user, name: 'Alpha')
-      @bravo = FG.create(:user, name: 'Bravo')
-      @charlie = FG.create(:user, name: 'Charlie')
-      @delta = FG.create(:user, name: 'Delta')
-      @echo = FG.create(:user, name: 'Echo')
       sign_in @alpha
 
       @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
-      @event.participants.create(user_id: User.first.id)
-      @event.participants.create(user_id: User.third.id)
-      @event.participants.create(user_id: User.fifth.id)
+      @event.participants.create(user: User.first)
+      @event.participants.create(user: User.second)
 
-      @participant = User.first
-      @out_of_participant = User.second
-
-      visit edit_event_path(@event)
+      visit event_path(@event)
     end
 
-    let(:submit) { '確定' }
-    let(:cancel) { '戻る' }
+    context 'イベント編集ボタン押下時' do
+      before { click_on 'イベントを編集するよ' }
+
+      it 'イベント編集画面に遷移すること' do
+        expect(page).to have_title('イベント編集')
+      end
+    end
+
+    context '支払登録ボタン押下時' do
+      before { click_on '支払を登録するよ' }
+
+      it '支払登録画面に遷移すること' do
+        expect(page).to have_title('支払登録')
+      end
+    end
+
+    context '精算ボタン押下時' do
+      before do
+        click_on '精算するよ'
+        @other_event = Event.create(name: 'other event', memo: 'hoge', date: '2014/01/01')
+      end
+
+      it '支払一覧画面に遷移してイベントでフィルタされていること' do
+        expect(page).to have_title('支払一覧')
+        expect(page).to have_content(@event.name)
+        expect(page).not_to have_content(@other_event.name)
+      end
+    end
 
     context '戻るボタン押下時' do
       before { click_on '戻る' }
 
-      specify 'イベント参照画面に遷移すること' do
-        expect(page).to have_title('イベント参照')
+      it 'イベント一覧画面に遷移すること' do
+        expect(page).to have_title('イベント一覧')
       end
     end
 
-    context '無効な登録内容のとき' do
-      before do
-        fill_in @label_name, with: ' '
-      end
-
-      it 'イベントが更新されないこと' do
-        expect { click_button submit }.not_to change(@event, :updated_at)
-      end
-
-      describe '確定ボタン押下時' do
-        before { click_button submit }
-
-        specify 'イベント編集画面に戻ること' do
-          expect(page).to have_title('イベント編集')
-        end
-
-        specify 'エラーメッセージが表示されること' do
-          expect(page).to have_content('Error')
-        end
-      end
+    it 'はページタイトルが表示される' do
+      expect(page).to have_content('イベント参照')
     end
 
-    context 'イベント基本情報が有効な変更内容のとき' do
-      before do
-        fill_in @label_name, with: 'TEST EVENT'
-        select @out_of_participant.name, from: 'event_participant_ids'
-        click_button submit
-      end
-
-      specify 'イベントが更新されること' do
-        expect(Event.find_by(id: @event.id).name).to eq('TEST EVENT')
-      end
-
-      specify 'イベント参加者が追加されること' do
-        expect(Event.find_by(id: @event.id).users).to include(@out_of_participant)
-      end
-
-      specify 'エラーメッセージが表示されないこと' do
-        expect(page).not_to have_content('Error')
+    context 'イベント情報の詳細画面を開いた場合' do
+      it 'はイベント情報とボタンが参照できる' do
+        expect(page).to have_content(@event.name)
+        expect(page).to have_content(@event.memo)
+        expect(page).to have_content(@event.formatted_date)
+        expect(page).to have_content(User.first.name)
+        expect(page).to have_content(User.second.name)
       end
     end
   end
