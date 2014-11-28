@@ -5,6 +5,8 @@ class Payment < ActiveRecord::Base
   validates :item_id, presence: true
   validates :price, presence: true
 
+  default_scope -> { order('item_id DESC, participant_id ASC') }
+
   def finished
     update_attribute(:status, true)
   end

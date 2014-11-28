@@ -94,4 +94,13 @@ describe Item do
       expect(subject).not_to be_valid
     end
   end
+
+  describe 'Itemオブジェクトを複数取得した場合' do
+    it 'はidの降順に並ぶ' do
+      Item.destroy_all
+      items = Array.new
+      3.times { items.push(FG.create(:item, event_id: 1, user_id: 1, price: 1)) }
+      expect(Item.all).to eq(items.reverse)
+    end
+  end
 end
