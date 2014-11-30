@@ -172,9 +172,6 @@ describe 'EventPages' do
     it 'はイベント名が正しく表示されていること' do
       expect(page).to have_content('test event')
     end
-    it 'はイベント詳細が正しく表示されていること' do
-      expect(page).to have_content('hoge')
-    end
     it 'はイベント日が正しく表示されていること' do
       expect(page).to have_content('2014/01/01')
     end
@@ -185,8 +182,8 @@ describe 'EventPages' do
     it 'はイベントIDの降順に表示されること' do
       @event2 = Event.create(name: 'test event 2', memo: 'hoge', date: '2014/01/01')
       visit events_path
-      expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[3 and text()='test event 2']")
-      expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[3 and text()='test event']")
+      expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[1]/a[text()='test event 2']")
+      expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[1]/a[text()='test event']")
     end
 
     describe 'イベントを作るよボタン押下時' do
@@ -201,7 +198,7 @@ describe 'EventPages' do
 
     describe '詳細リンク押下時' do
       before do
-        click_link '詳細'
+        click_link 'test event'
       end
 
       it 'はイベント名が正しく表示されていること' do
@@ -239,7 +236,7 @@ describe 'EventPages' do
                                    price: 2000, status: false)
         @p4 = item2.payments.create(participant_id: @event.participants.second.id,
                                    price: 345, status: true)
-        click_link '詳細'
+        click_link 'test event'
       end
 
       it 'は品目が表示されていること' do
