@@ -37,7 +37,7 @@
             </tr>
             <% @events.each do |event|%>
             <tr>
-              <td><%= link_to '詳細' , event %></td>
+              <td><%= link_to '詳細' , event, class: :"btn btn-warning btn-xs"%></td>
               <td><%= event.id %></td>
               <td><%= event.name %></td>
               <td><%= event.memo.blank? ? '(未入力)' : event.memo %></td>
@@ -45,7 +45,7 @@
                 <% if event.users.blank? %>
                   (無し)
                 <% else %>
-                 <%= event.users.count %>名
+                  <%= event.users.count %>名
                 <% end %>
               </td>
               <td><%= event.formatted_date.blank? ? '(未入力)' : event.formatted_date %></td>
