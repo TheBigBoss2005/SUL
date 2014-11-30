@@ -9,6 +9,8 @@ class Item < ActiveRecord::Base
   validates :user_id, presence: true
   validates :event_id, presence: true
 
+  default_scope -> { order('id DESC') }
+
   private
 
   def escape_tag
