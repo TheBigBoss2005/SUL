@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2">
         <div class="well bs-component">
-          <%= link_to 'イベントを作るよ', {controller: :events, action: :new}, class: :"btn btn-success btn-lg" %>
+          <%= link_to 'イベントを作るよ', {controller: :events, action: :new}, class: :"btn btn-primary btn-lg" %>
           <%= link_to '戻る', :root, class: :"btn btn-default btn-lg" %>
         </div>
       </div>
@@ -26,21 +26,15 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2">
         <div class="well bs-component">
-          <table class="table table-borderd">
+          <table class="table table-hover">
             <tr>
-              <th>詳細</th>
-              <th>ID</th>
               <th>イベント名</th>
-              <th>概要</th>
               <th>参加者</th>
               <th>開催日</th>
             </tr>
             <% @events.each do |event|%>
             <tr>
-              <td><%= link_to '詳細' , event, class: :"btn btn-warning btn-xs"%></td>
-              <td><%= event.id %></td>
-              <td><%= event.name %></td>
-              <td><%= event.memo.blank? ? '(未入力)' : event.memo %></td>
+              <td><%= link_to event.name, event, class: :"btn btn-link"%></td>
               <td>
                 <% if event.users.blank? %>
                   (無し)

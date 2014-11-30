@@ -172,9 +172,6 @@ describe 'EventPages' do
     it 'はイベント名が正しく表示されていること' do
       expect(page).to have_content('test event')
     end
-    it 'はイベント詳細が正しく表示されていること' do
-      expect(page).to have_content('hoge')
-    end
     it 'はイベント日が正しく表示されていること' do
       expect(page).to have_content('2014/01/01')
     end
@@ -194,7 +191,7 @@ describe 'EventPages' do
 
     describe '詳細リンク押下時' do
       before do
-        click_link '詳細'
+        click_link 'test event'
       end
 
       it 'はイベント名が正しく表示されていること' do
@@ -232,7 +229,7 @@ describe 'EventPages' do
                                    price: 2000, status: false)
         @p4 = item2.payments.create(participant_id: @event.participants.second.id,
                                    price: 345, status: true)
-        click_link '詳細'
+        click_link 'test event'
       end
 
       it 'は品目が表示されていること' do
