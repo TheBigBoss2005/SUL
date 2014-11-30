@@ -27,30 +27,34 @@
       <div class="col-lg-8 col-lg-offset-2">
         <div class="well bs-component">
           <table class="table table-borderd">
-            <tr>
-              <th>詳細</th>
-              <th>ID</th>
-              <th>イベント名</th>
-              <th>概要</th>
-              <th>参加者</th>
-              <th>開催日</th>
-            </tr>
-            <% @events.each do |event|%>
-            <tr>
-              <td><%= link_to '詳細' , event, class: :"btn btn-warning btn-xs"%></td>
-              <td><%= event.id %></td>
-              <td><%= event.name %></td>
-              <td><%= event.memo.blank? ? '(未入力)' : event.memo %></td>
-              <td>
-                <% if event.users.blank? %>
-                  (無し)
-                <% else %>
-                  <%= event.users.count %>名
-                <% end %>
-              </td>
-              <td><%= event.formatted_date.blank? ? '(未入力)' : event.formatted_date %></td>
-            </tr>
-            <% end %>
+            <thead>
+              <tr>
+                <th>詳細</th>
+                <th>ID</th>
+                <th>イベント名</th>
+                <th>概要</th>
+                <th>参加者</th>
+                <th>開催日</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @events.each do |event|%>
+                <tr>
+                  <td><%= link_to '詳細', event, class: :"btn btn-warning btn-xs"%></td>
+                  <td><%= event.id %></td>
+                  <td><%= event.name %></td>
+                  <td><%= event.memo.blank? ? '(未入力)' : event.memo %></td>
+                  <td>
+                    <% if event.users.blank? %>
+                      (無し)
+                    <% else %>
+                      <%= event.users.count %>名
+                    <% end %>
+                  </td>
+                  <td><%= event.formatted_date.blank? ? '(未入力)' : event.formatted_date %></td>
+                </tr>
+              <% end %>
+            </tbody>
           </table>
         </div>
       </div>
