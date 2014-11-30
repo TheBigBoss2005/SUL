@@ -33,19 +33,19 @@
               <div class="form-group">
                 <%= f.label :name, 'イベント名', class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_field :name, class: 'form-control' %>
+                  <%= f.text_field :name, class: 'form-control', placeholder: 'イベント名を入力して下さい' %>
                 </div>
               </div>
               <div class="form-group">
                 <%= f.label :memo, '概要', class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_area :memo, class: 'form-control' %>
+                  <%= f.text_area :memo, class: 'form-control', placeholder: 'このイベントに関するメモを自由に入力して下さい' %>
                 </div>
               </div>
               <div class="form-group">
                 <%= f.label :date, '開催日', class: 'col-lg-2 control-label' %>
                 <div class="col-lg-10">
-                  <%= f.text_field :date, value: @event.formatted_date, class: 'form-control', type: 'text', readonly: true %>
+                  <%= f.text_field :date, value: @event.formatted_date, class: 'form-control', type: 'text', placeholder: 'このイベントの開催日を入力して下さい', readonly: true %>
                 </div>
               </div>
               <div class="form-group">
