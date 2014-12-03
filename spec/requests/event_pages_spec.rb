@@ -151,7 +151,7 @@ describe 'EventPages' do
     end
   end
 
-  describe 'GET /event/' do
+  describe 'GET /events' do
     before(:each)  do
       @alpha = FG.create(:user, name: 'Alpha')
       @bravo = FG.create(:user, name: 'Bravo')
@@ -177,6 +177,13 @@ describe 'EventPages' do
     end
     it 'はイベント参加者数が正しく表示されていること' do
       expect(page).to have_content('3名')
+    end
+
+    it 'はイベントIDの降順に表示されること' do
+      @event2 = Event.create(name: 'test event 2', memo: 'hoge', date: '2014/01/01')
+      visit events_path
+      expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[1]/a[text()='test event 2']")
+      expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[1]/a[text()='test event']")
     end
 
     describe 'イベントを作るよボタン押下時' do

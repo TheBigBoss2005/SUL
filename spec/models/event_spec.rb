@@ -135,4 +135,13 @@ describe Event do
       end
     end
   end
+
+  describe 'Eventオブジェクトを複数取得した場合' do
+    it 'はidの降順に並ぶ' do
+      Event.destroy_all
+      events = Array.new
+      3.times { events.push(FG.create(:event, name: 'fuga')) }
+      expect(Event.all).to eq(events.reverse)
+    end
+  end
 end

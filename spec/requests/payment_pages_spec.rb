@@ -15,11 +15,11 @@ describe 'PaymentPages' do
       @event.participants.create(user_id: @user_alpha.id)
       @event.participants.create(user_id: @user_bravo.id)
       @event.participants.create(user_id: @user_charlie.id)
-      item = @event.items.create(user_id: @user_alpha.id, memo: 'fuga', price: 2468)
+      item = @event.items.create(user_id: @user_alpha.id, memo: 'fuga', price: 3579)
       @p1 = item.payments.create(participant_id: @event.participants.second.id,
                            price: 1234, status: false)
       @p2 = item.payments.create(participant_id: @event.participants.first.id,
-                           price: 1234, status: true)
+                           price: 2345, status: true)
 
       @event2 = FG.create(:event, name: 'other_event', memo: 'hoge', date: '2014/01/01')
       @event2.participants.create(user_id: @user_alpha.id)
@@ -104,6 +104,12 @@ describe 'PaymentPages' do
 
     it 'は「精算画面へ」ボタンが表示される' do
       expect(page).to have_selector(:xpath, "//button[@id='settleup']")
+    end
+
+    it '支払情報が品目降順かつ支払元昇順で表示される' do
+      expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[5 and text()='123']")
+      expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[5 and text()='2,345']")
+      expect(page).to have_selector(:xpath, "//tbody/tr[3]/td[5 and text()='1,234']")
     end
 
     describe '支払が存在しないとき' do
