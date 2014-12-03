@@ -126,24 +126,29 @@ describe 'EventPages' do
       @delta = FG.create(:user, name: 'Delta')
       @echo = FG.create(:user, name: 'Echo')
       sign_in @alpha
-      @event = Event.create(name: 'test event', memo: 'hoge', date: '2014/01/01')
+      @event = FG.create(:event)
       @event.participants.create(user_id: User.first.id)
       @event.participants.create(user_id: User.third.id)
       @event.participants.create(user_id: User.fifth.id)
       @participant = User.first
       @out_of_participant = User.second
+      30.times.each { FG.create(:event) }
 
       visit events_path
     end
+
     after(:each) { User.destroy_all }
+
     it 'はイベント名が正しく表示されていること' do
-      expect(page).to have_content('test event')
+      expect(page).to have_content(@event.name)
     end
+
     it 'はイベント日が正しく表示されていること' do
-      expect(page).to have_content('2014/01/01')
+      expect(page).to have_content(@event.formatted_date)
     end
+
     it 'はイベント参加者数が正しく表示されていること' do
-      expect(page).to have_content('3名')
+      expect(page).to have_content("#{@event.users.count}名")
     end
 
     describe 'イベントを作るよボタン押下時' do
@@ -158,26 +163,22 @@ describe 'EventPages' do
 
     describe '詳細リンク押下時' do
       before do
-        click_link 'test event'
+        click_link @event.name
       end
 
       it 'はイベント名が正しく表示されていること' do
-        expect(page).to have_content('test event')
+        expect(page).to have_content(@event.name)
       end
       it 'はイベント詳細が正しく表示されていること' do
-        expect(page).to have_content('hoge')
+        expect(page).to have_content(@event.memo)
       end
       it 'はイベント日が正しく表示されていること' do
-        expect(page).to have_content('2014/01/01')
+        expect(page).to have_content(@event.formatted_date)
       end
-      it 'はイベント参加者１が正しく表示されていること' do
-        expect(page).to have_content('Alpha')
-      end
-      it 'はイベント参加者2が正しく表示されていること' do
-        expect(page).to have_content('Charlie')
-      end
-      it 'はイベント参加者3が正しく表示されていること' do
-        expect(page).to have_content('Echo')
+      it 'はイベント参加者の名前が正しく表示されていること' do
+        expect(page).to have_content(@alpha.name)
+        expect(page).to have_content(@charlie.name)
+        expect(page).to have_content(@echo.name)
       end
       it 'は支払情報が未登録であるメッセージが表示されていること' do
         expect(page).to have_content('登録済支払情報はありません')
@@ -196,7 +197,7 @@ describe 'EventPages' do
                                    price: 2000, status: false)
         @p4 = item2.payments.create(participant_id: @event.participants.second.id,
                                    price: 345, status: true)
-        click_link 'test event'
+        click_link @event.name
       end
 
       it 'は品目が表示されていること' do
@@ -218,6 +219,12 @@ describe 'EventPages' do
         expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[4 and text()='345']")
         expect(page).to have_selector(:xpath, "//tbody/tr[3]/td[4 and text()='1,000']")
         expect(page).to have_selector(:xpath, "//tbody/tr[4]/td[4 and text()='234']")
+      end
+    end
+
+    describe 'でページネートされた時' do
+      it 'はページ送りが表示されること' do
+        expect(page).to have_css('.pagination')
       end
     end
   end
