@@ -25,8 +25,11 @@ describe 'EventPages' do
     end
     after(:each) { User.destroy_all }
 
+    let(:submit) { '確定' }
+    let(:cancel) { '戻る' }
+
     describe '戻るボタン押下時' do
-      before { click_on '戻る' }
+      before { click_on cancel }
 
       it 'イベント参照画面に戻ること' do
         expect(page).to have_title('イベント一覧')
@@ -87,42 +90,6 @@ describe 'EventPages' do
       end
 
     end
-  end
-
-  describe 'イベント作成機能' do
-    before do
-      sign_in @alpha
-      visit new_event_path
-    end
-
-    let(:submit) { '確定' }
-    let(:cancel) { '戻る' }
-
-    describe 'キャンセルボタン押下時' do
-      before { click_link cancel }
-
-      it 'イベント一覧画面に戻ること' do
-        expect(page).to have_title('イベント一覧')
-      end
-    end
-
-    describe '無効な登録内容のとき' do
-      it 'イベントが追加されないこと' do
-        expect { click_button submit }.not_to change(Event, :count)
-      end
-
-      describe '確定ボタン押下時' do
-        before { click_button submit }
-
-        it 'イベント作成画面に戻ること' do
-          expect(page).to have_title('イベント作成')
-        end
-
-        it 'エラーメッセージが表示されること' do
-          expect(page).to have_content('Error')
-        end
-      end
-    end
 
     describe '有効な登録内容のとき' do
       before do
@@ -151,7 +118,7 @@ describe 'EventPages' do
     end
   end
 
-  describe 'GET /event/' do
+  describe 'GET /events' do
     before(:each)  do
       @alpha = FG.create(:user, name: 'Alpha')
       @bravo = FG.create(:user, name: 'Bravo')
