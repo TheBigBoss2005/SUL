@@ -126,18 +126,21 @@ describe 'EventPages' do
       @delta = FG.create(:user, name: 'Delta')
       @echo = FG.create(:user, name: 'Echo')
       sign_in @alpha
-      @event = FG.create(:event)
+      30.times.each { FG.create(:event) }
+      @event = Event.first
       @event.participants.create(user_id: User.first.id)
       @event.participants.create(user_id: User.third.id)
       @event.participants.create(user_id: User.fifth.id)
       @participant = User.first
       @out_of_participant = User.second
-      30.times.each { FG.create(:event) }
 
       visit events_path
     end
 
-    after(:each) { User.destroy_all }
+    after(:each) do
+      User.destroy_all
+      Event.delete_all
+    end
 
     it 'はイベント名が正しく表示されていること' do
       expect(page).to have_content(@event.name)
@@ -152,10 +155,8 @@ describe 'EventPages' do
     end
 
     it 'はイベントIDの降順に表示されること' do
-      @event2 = Event.create(name: 'test event 2', memo: 'hoge', date: '2014/01/01')
-      visit events_path
-      expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[1]/a[text()='test event 2']")
-      expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[1]/a[text()='test event']")
+      expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[1]/a[text()='#{Event.first.name}']")
+      expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[1]/a[text()='#{Event.second.name}']")
     end
 
     describe 'イベントを作るよボタン押下時' do
