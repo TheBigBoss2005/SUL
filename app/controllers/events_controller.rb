@@ -12,7 +12,7 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @items = @event.items
-    payments = Array.new
+    payments = []
     @items.each do |item|
       item.payments.each do |payment|
         payments.push(payment)
