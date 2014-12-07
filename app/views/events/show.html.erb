@@ -49,12 +49,10 @@
                       <% end %>
                     </ul>
                   <% end %>
-
                 </div>
               </div>
             </fieldset>
           <% end %>
-
 
             <fieldset>
               <legend>登録済支払情報</legend>
@@ -78,21 +76,18 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% @event.items.each do |item| %>
-                          <% unless item.payments.empty? then %>
-                            <% item.payments.each do |payment| %>
-                              <tr>
-                                <td><%= payment.participant.user.name %></td>
-                                <td><%= item.user.name %></td>
-                                <td><%= item.memo %></td>
-                                <td><%= number_with_delimiter(payment.price, delimiter: ',') %></td>
-                                <td><%= payment.status ? '精算済' : '未精算' %></td>
-                              </tr>
-                            <% end %>
-                          <% end %>
+                        <% @payments.each do |payment| %>
+                          <tr>
+                            <td><%= payment.participant.user.name %></td>
+                            <td><%= payment.item.user.name %></td>
+                            <td><%= payment.item.memo %></td>
+                            <td><%= number_with_delimiter(payment.price, delimiter: ',') %></td>
+                            <td><%= payment.status ? '精算済' : '未精算' %></td>
+                          </tr>
                         <% end %>
                       </tbody>
                     </table>
+                    <%= paginate(@payments) %>
                   </div>
                 </div>
               <% end %>
@@ -112,5 +107,4 @@
       </div>
     </div>
   </div>
-
 </div>
