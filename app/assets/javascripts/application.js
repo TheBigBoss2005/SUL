@@ -17,3 +17,4 @@
 //= require header
 //= stub datepicker
 //= stub settleup
+//= stub itemform

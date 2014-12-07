@@ -57,6 +57,12 @@ describe 'ItemPages' do
     it 'は金額入力欄を含む' do
       expect(page).to have_field('金額')
     end
+
+    it 'は金額個別指定欄を含む' do
+      expect(page).to have_field(@alpha.name)
+      expect(page).to have_field(@charlie.name)
+      expect(page).to have_field(@echo.name)
+    end
   end
 
   describe '支払登録機能' do

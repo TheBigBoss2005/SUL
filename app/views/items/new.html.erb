@@ -1,4 +1,5 @@
 <% provide(:title, '支払登録') %>
+<% provide(:item_form, true) %>
 <% breadcrumb :new_item, @event %>
 <div class="container">
 
@@ -57,6 +58,14 @@
                     <input class="form-control" type="text" id="item_price" name="item[price]" placeholder="支払った金額を入力して下さい">
                   </div>
                 </div>
+                <% @event.participants.each do |p| %>
+                  <div class="form-group" id="individually-<%= p.id %>">
+                    <label class="col-lg-2 col-lg-offset-2 control-label" for="payment_price_<%= p.id %>"><%= p.user.name %></label>
+                    <div class="col-lg-8">
+                      <input class="form-control" type="text" id="payment_price_<%= p.id %>" name="payment_price[<%= p.id %>]" placeholder="<%= p.user.name %>が支払う金額を入力して下さい">
+                    </div>
+                  </div>
+                <% end %>
               <% end %>
               <div class="form-group">
                 <div class="form-group">
