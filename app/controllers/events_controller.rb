@@ -12,13 +12,7 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @items = @event.items
-    payments = []
-    @items.each do |item|
-      item.payments.each do |payment|
-        payments.push(payment)
-      end
-    end
-    @payments = Kaminari.paginate_array(payments).page(params[:page]).per(10)
+    @payments = @event.payments.page(params[:page]).per(10)
   end
 
   def create
