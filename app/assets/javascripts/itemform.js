@@ -9,5 +9,15 @@ $(function() {
       $("#payment_price_"+$(this).val()).prop('disabled', false);
     });
   });
+
+  // sum individually form values
+  $("[id^=payment_price]").change(function() {
+    var total = 0;
+    $("[id^=payment_price]").each(function() {
+      var num = $(this).val();
+      total = num != "" ? total + parseInt(num) : total;
+    });
+    $("#total").text(total);
+  });
 });
 
