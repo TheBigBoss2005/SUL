@@ -25,12 +25,13 @@ class ItemsController < ApplicationController
 
   def create_payment
     return unless params[:payment][:source_user_ids]
-    price_par_payment = @item.price / params[:payment][:source_user_ids].count
     params[:payment][:source_user_ids].each do |source_user_id|
+      payment_price = params[:payment_price][source_user_id]
+      payment_price = 0 if payment_price.nil?
       status = @item.user_id == Participant.find_by(id: source_user_id).user_id ? true : false
       @item.payments.create(
         participant_id: source_user_id,
-        price: price_par_payment,
+        price: payment_price,
         status: status
       )
     end
