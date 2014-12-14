@@ -159,7 +159,7 @@ describe 'ItemPages' do
         select @event.users.first.name, from: 'dest_user_id'
         fill_in '品目', with: 'foobar'
         fill_in '金額', with: '1000'
-        fill_in @event.users.first.name, with: '600'
+        fill_in @event.users.first.name, with: '1000'
         click_button submit
       end
 
