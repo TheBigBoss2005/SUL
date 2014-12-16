@@ -60,6 +60,7 @@ $(function() {
 
   // 確定ボタン押下時に入力内容等のチェックを行う
   $("#new_item").submit(function() {
+    var form = $(this);
     var message_array = new Array;
     // 必須入力項目のチェック
     if ($("#source_user_ids :selected").length == 0) message_array.push("支払元を選択して下さい");
@@ -68,13 +69,27 @@ $(function() {
     if (getTotal() == 0) message_array.push("個々の金額を入力して下さい");
 
     if (message_array.length > 0) {
+      // エラーメッセージHTML化
+      var message_html = "<ul>";
+      $.each(message_array, function() {
+        message_html += "<li>" + this + "</li>";
+      });
       // エラーメッセージ出力
-      alert(message_array);
+      bootbox.alert(message_html);
     } else {
-      if ($("#item_price").val() == getTotal() || confirm("金額欄に入力した値と個々の支払金額の合計値が一致しませんがよろしいですか？")) {
+      if ($("#item_price").val() == getTotal()) {
         // フォーム送信
-        $(this).off('submit');
-        $(this).submit();
+        form.off('submit');
+        form.submit();
+      } else {
+        // 金額不一致の場合は確認ダイアログ出力
+        bootbox.confirm("金額欄に入力した値と個々の支払金額の合計値が一致しませんがよろしいですか？", function(result){
+          if (result) {
+            // フォーム送信
+            form.off('submit');
+            form.submit();
+          };
+        });
       };
     };
     return false;
