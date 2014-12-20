@@ -6,7 +6,8 @@ class ItemsController < ApplicationController
 
   def create
     @event = Event.find_by(id: params[:event_id].to_i)
-    create_payment if @item = create_item
+    @item = create_item
+    create_payment if @item.persisted?
     if @item.payments.empty?
       @item.delete
       render 'new'
