@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap.min
+//= require bootbox.min
 //= require header
 //= stub datepicker
 //= stub settleup
+//= stub itemform

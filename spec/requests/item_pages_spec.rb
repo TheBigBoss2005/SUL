@@ -57,6 +57,12 @@ describe 'ItemPages' do
     it 'は金額入力欄を含む' do
       expect(page).to have_field('金額')
     end
+
+    it 'は金額個別指定欄を含む' do
+      expect(page).to have_field(@alpha.name)
+      expect(page).to have_field(@charlie.name)
+      expect(page).to have_field(@echo.name)
+    end
   end
 
   describe '支払登録機能' do
@@ -109,6 +115,7 @@ describe 'ItemPages' do
         select @event.users.second.name, from: 'dest_user_id'
         fill_in '品目', with: 'foobar'
         fill_in '金額', with: '1000'
+        fill_in @event.users.first.name, with: '1000'
       end
 
       specify '支払品目が１件追加されること' do
@@ -127,6 +134,8 @@ describe 'ItemPages' do
         select @event.users.second.name, from: 'dest_user_id'
         fill_in '品目', with: 'foobar'
         fill_in '金額', with: '1000'
+        fill_in @event.users.first.name, with: '600'
+        fill_in @event.users.third.name, with: '400'
       end
 
       specify '支払品目が１件追加されること' do
@@ -137,9 +146,10 @@ describe 'ItemPages' do
         expect { click_button submit }.to change(Payment, :count).by(2)
       end
 
-      specify '支払の支払金額が割り勘後の金額で追加されること' do
+      specify '支払の支払金額が入力した金額で追加されること' do
         click_button submit
-        expect(@event.items.first.payments.last.price).to eq(500)
+        expect(@event.items.first.payments.first.price).to eq(600)
+        expect(@event.items.first.payments.last.price).to eq(400)
       end
     end
 
@@ -149,6 +159,7 @@ describe 'ItemPages' do
         select @event.users.first.name, from: 'dest_user_id'
         fill_in '品目', with: 'foobar'
         fill_in '金額', with: '1000'
+        fill_in @event.users.first.name, with: '1000'
         click_button submit
       end
 

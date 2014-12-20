@@ -33,6 +33,7 @@
       <%= javascript_include_tag "datepicker", 'data-turbolinks-track' => true %>
     <% end %>
     <%= javascript_include_tag "settleup", 'data-turbolinks-track' => true if content_for?(:settleup_form) %>
+    <%= javascript_include_tag "itemform", 'data-turbolinks-track' => true if content_for?(:item_form) %>
   </head>
   <body>
 
