@@ -16,6 +16,8 @@ class ItemsController < ApplicationController
     end
   end
 
+  private
+
   def create_item
     @event.items.create(
       memo: params[:item][:memo],
