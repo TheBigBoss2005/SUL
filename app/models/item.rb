@@ -5,6 +5,7 @@ class Item < ActiveRecord::Base
   before_save :escape_tag
 
   validates :memo, presence: true, length: { maximum: 20 }
+  validates :price, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   validates :user_id, presence: true
   validates :event_id, presence: true

@@ -18,6 +18,16 @@
       <div class="col-lg-8 col-lg-offset-2">
         <div class="well bs-component">
           <%= form_for [@event, @item], :html => { :class => 'form-horizontal', :role => 'form' } do |f| %>
+            <% if @item.errors.any? %>
+              <div class="alert alert-dismissable alert-danger">
+                <strong>Error!</strong>
+                <ul>
+                  <% @item.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
             <fieldset>
               <% if @event.users.empty? %>
                 <div class="form-group">

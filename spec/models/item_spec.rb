@@ -95,6 +95,20 @@ describe Item do
     end
   end
 
+  describe Item, '#priceが半角数字でない場合' do
+    before { subject.price = '１' }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
+  end
+
+  describe Item, '#priceが0以下の場合' do
+    before { subject.price = 0 }
+    specify 'validationに失敗すること' do
+      expect(subject).not_to be_valid
+    end
+  end
+
   describe 'Itemオブジェクトを複数取得した場合' do
     it 'はidの降順に並ぶ' do
       Item.destroy_all
