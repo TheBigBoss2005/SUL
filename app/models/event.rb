@@ -4,6 +4,7 @@ class Event < ActiveRecord::Base
   has_many :participants
   has_many :users, through: :participants
   has_many :items
+  has_many :payments, through: :items
   before_save :escape_tag
 
   validates :name, presence: true,  length: { maximum: 40 }

@@ -16,6 +16,7 @@ describe Event do
   specify { expect(subject).to respond_to(:participants) }
   specify { expect(subject).to respond_to(:users) }
   specify { expect(subject).to respond_to(:items) }
+  specify { expect(subject).to respond_to(:payments) }
   specify { expect(subject).to respond_to(:formatted_date) }
 
   describe Event, '#name, #memo, #dateが設定済の場合' do
