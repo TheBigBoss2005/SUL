@@ -31,8 +31,11 @@
             <fieldset>
               <legend>イベント基本情報</legend>
               <div class="form-group">
-                <%= f.label :name, 'イベント名', class: 'col-lg-2 control-label' %>
-                <div class="col-lg-10">
+                <div class="col-lg-2 control-label" data-toggle='popover' data-placement:'right', title=' イベント名' data-content='登録するイベント名を最大xx文字で入力してください。'>
+                  <%= f.label :name, 'イベント名'%>
+                  <i class="glyphicon glyphicon-question-sign"></i>
+                </div>
+                <div class="col-lg-9">
                   <%= f.text_field :name, class: 'form-control', placeholder: 'イベント名を入力して下さい' %>
                 </div>
               </div>

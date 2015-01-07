@@ -19,3 +19,6 @@
 //= stub datepicker
 //= stub settleup
 //= stub itemform
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
