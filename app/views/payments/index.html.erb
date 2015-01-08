@@ -73,11 +73,11 @@
               支払情報がありません
             <% else %>
               <%= paginate @payments %>
-              <table class="footable table table-striped table-hover">
+              <table class="footable table table-hover">
                 <thead>
                   <tr>
                     <th data-hide="phone">イベント</th>
-                    <th data-class="source">支払元</th>
+                    <th data-class="source" data-toggle="true">支払元</th>
                     <th data-class="dest">支払先</th>
                     <th data-hide="phone">品目</th>
                     <th data-class="price">金額</th>

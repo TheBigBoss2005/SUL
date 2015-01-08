@@ -5,6 +5,7 @@ $(function() {
 
     // init footable
     $(".footable").footable();
+    var $footable = $('.footable').data('footable');
 
     // enable/disable settleup button
     function toggle_settleup_button() {
@@ -23,17 +24,23 @@ $(function() {
         $(this).prop('checked', 'checked');
       }
       toggle_settleup_button();
+      if ( $(document).width() <= 480 ) {
+        $footable.toggleDetail($(this).parents('td:first').parents('tr:first'));
+      }
     });
 
-    // toggle checkbox when table row clicked
-    $("table tr").click(function() {
-      var checkbox = $(this).children("td").children(":checkbox");
+    // toggle checkbox when status cell clicked
+    $("td:nth-child(6)").click(function() {
+      var checkbox = $(this).children(":checkbox");
       if ( checkbox.prop('checked') ) {
         checkbox.prop('checked', '');
       } else {
         checkbox.prop('checked', 'checked');
       }
       toggle_settleup_button();
+      if ( $(document).width() <= 480 ) {
+        $footable.toggleDetail($(this).parents('tr:first'));
+      }
     });
   });
 });
