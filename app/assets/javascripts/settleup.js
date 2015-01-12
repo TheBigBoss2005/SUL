@@ -25,7 +25,7 @@ $(function() {
       }
       toggle_settleup_button();
       if ( $(document).width() <= 480 ) {
-        $footable.toggleDetail($(this).parents('td:first').parents('tr:first'));
+        $footable.toggleDetail($(this).closet('tr'));
       }
     });
 
