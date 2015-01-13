@@ -31,16 +31,16 @@
             <fieldset>
               <legend>イベント基本情報</legend>
               <div class="form-group">
-                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' イベント名' data-content='登録するイベント名を最大40文字で入力してください。'>
+                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' イベント名' data-trigger='hover' data-content='登録するイベント名を最大40文字で入力してください。'>
                   <%= f.label :name, 'イベント名' %>
                   <i class="glyphicon glyphicon-question-sign"></i>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-10">
                   <%= f.text_field :name, class: 'form-control', placeholder: 'イベント名を入力して下さい' %>
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title='概要' data-content='登録するイベントの概要を最大40文字で入力してください。'>
+                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title='概要' data-trigger='hover' data-content='登録するイベントの概要を最大40文字で入力してください。'>
                   <%= f.label :memo, '概要' %>
                   <i class="glyphicon glyphicon-question-sign"></i>
                 </div>
@@ -49,7 +49,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' 開催日' data-content='イベントが開催された日付を選択して下さい。'>
+                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' 開催日' data-trigger='hover' data-content='イベントが開催された日付を選択して下さい。'>
                   <%= f.label :date, '開催日' %>
                   <i class="glyphicon glyphicon-question-sign"></i>
                 </div>
@@ -58,7 +58,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' 参加者' data-content='参加このイベントに参加した参加者を選んでください。参加者リストに該当する参加者が存在しない場合は、先にユーザー登録を実施してください。'>
+                <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' 参加者' data-trigger='hover' data-content='参加このイベントに参加した参加者を選んでください。参加者リストに該当する参加者が存在しない場合は、先にユーザー登録を実施してください。'>
                   <%= f.label :participants, '参加者' %>
                   <i class="glyphicon glyphicon-question-sign"></i>
                 </div>
