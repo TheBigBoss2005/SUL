@@ -11,7 +11,7 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
-    @payments = @event.payments.page(params[:page]).per(10)
+    @items = @event.items.page(params[:page]).per(5)
   end
 
   def create

@@ -218,15 +218,15 @@ describe 'EventPages' do
       end
 
       it 'は精算状況が表示されていること' do
-        expect(page).to have_content('未精算')
-        expect(page).to have_content('精算済')
+        expect(page).to have_content('済')
       end
 
       it 'は支払情報が品目降順かつ支払元昇順で表示されること' do
-        expect(page).to have_selector(:xpath, "//tbody/tr[1]/td[4 and text()='2,000']")
-        expect(page).to have_selector(:xpath, "//tbody/tr[2]/td[4 and text()='345']")
-        expect(page).to have_selector(:xpath, "//tbody/tr[3]/td[4 and text()='1,000']")
-        expect(page).to have_selector(:xpath, "//tbody/tr[4]/td[4 and text()='234']")
+        payment_prices = page.all(:xpath, "//div[@class='payment_price']")
+        expect(payment_prices[0].text).to eq('2,000')
+        expect(payment_prices[1].text).to eq('345')
+        expect(payment_prices[2].text).to eq('1,000')
+        expect(payment_prices[3].text).to eq('234')
       end
     end
 
