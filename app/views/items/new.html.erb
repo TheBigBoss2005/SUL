@@ -37,7 +37,10 @@
                 </div>
               <% else %>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label" for="payment_source_user_ids">支払元</label>
+                  <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title='支払元 ' data-trigger='hover' data-content='この支払でお金を払う人(支払先の人にお金を払う人)を選んでください。名前が存在しない場合は、イベント編集画面から、参加者の追加を行ってください。'>
+                    <label for="payment_source_user_ids">支払元</label>
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                  </div>
                   <div class="col-lg-10">
                     <select class="form-control" id="source_user_ids" multiple="multiple" name="payment[source_user_ids][]">
                       <% @event.participants.each do |p| %>
@@ -47,7 +50,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label" for="dest_user">支払先</label>
+                  <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' 支払先' data-trigger='hover' data-content='この支払を行った人（支払元の人からお金を受け取る人）の名前を選択して下さい。名前が存在しない場合は、イベント編集画面から、参加者の追加を行ってください。'>
+                    <label for="payment_source_user_ids">支払先</label>
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                  </div>                  
                   <div class="col-lg-10">
                     <select class="form-control" id="dest_user_id" name="payment[dest_user_id]">
                       <% @event.users.each do |u| %>
@@ -57,13 +63,19 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label" for="item_memo">品目</label>
+                  <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' 品目' data-trigger='hover' data-content='この支払の内容が端的に分かるように、支払った品物の名前を最大20文字で入力して下さい。'>
+                    <label for="payment_source_user_ids">品目</label>
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                  </div>   
                   <div class="col-lg-10">
                     <input class="form-control" type="text" id="item_memo" name="item[memo]" placeholder="支払いしたものの品目名を入力して下さい">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label" for="item_price">金額</label>
+                  <div class="col-lg-2 control-label" data-toggle='popover' data-placement='top', title=' 金額' data-trigger='hover' data-content='この支払の金額を入力して下さい。支払金額を入力すると、支払元で選択したユーザーに自動的に等分されます。もし、人別に支払額に差がある場合は、対象者の金額を自由に変更して下さい。'>
+                    <label for="payment_source_user_ids">金額</label>
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                  </div>   
                   <div class="col-lg-10">
                     <input class="form-control" type="text" id="item_price" name="item[price]" placeholder="支払った金額を入力して下さい">
                   </div>
