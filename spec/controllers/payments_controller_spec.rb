@@ -10,6 +10,22 @@ describe PaymentsController do
     part2 = FG.create(:participant, user: FG.create(:user), event: @event)
     @pay1 = FG.create(:payment, participant: part1, item: item)
     @pay2 = FG.create(:payment, participant: part2, item: item)
+
+    part3 = FG.create(:participant, user: FG.create(:user), event: @event)
+    @pay3 = FG.create(:payment, participant: part3, item: item, status: true)
+
+  end
+
+  describe '精算確認' do
+    context 'が呼び出された場合' do
+      it 'は:payment_idsに対応する精算未完了のpaymentが渡される' do
+        post :confirm, payment_ids: [@pay1.id, @pay3.id]
+
+        expect(assigns(:payments)).to include(@pay1)
+        expect(assigns(:payments)).not_to include(@pay2)
+        expect(assigns(:payments)).not_to include(@pay3)
+      end
+    end
   end
 
   describe '精算完了(単体)' do
