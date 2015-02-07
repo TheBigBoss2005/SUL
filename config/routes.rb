@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   resources :payments, only: %w(index destroy) do
     collection do
-      post 'confirm', to: 'payments#confirm'
-      delete 'bulk_destroy', to: 'payments#bulk_destroy'
+      post 'confirm'
+      delete 'bulk_destroy'
     end
   end
 
