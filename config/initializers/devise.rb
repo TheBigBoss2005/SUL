@@ -4,6 +4,7 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
+  config.secret_key = ENV["SECRET_KEY_BASE"]
   # config.secret_key = '335f5f32168f8153b5d20b7a49bc7e12ed7ac9c00f
   # fe70dca7524d976775d60bc4a0f05ba4c02ecf27d2004ea5c6fa93ddb4179c3649760ebc561c2b002241c4'
 
