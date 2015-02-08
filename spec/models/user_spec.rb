@@ -33,7 +33,6 @@ describe User do
   end
 
   describe User, '#name に含まれる文字が' do
-
     describe "'<','>'以外の文字の場合" do
       %w(A あ 0 - = / _ \\ ? % " ').each do |w|
         describe "例:'#{w}'" do
@@ -66,7 +65,6 @@ describe User do
       specify "'&gt;'に変換されること" do
         expect(@user.name).to eq('&gt;')
       end
-
     end
   end
 
@@ -87,14 +85,14 @@ describe User do
   describe User, '#login_id が重複した場合' do
     before { @user.save }
     specify '登録に失敗すること' do
-      expect(@user.dup.save).to be_false
+      expect(@user.dup.save).to be_falsey
     end
   end
 
   describe User, '#login_id が半角英数字_以外の場合' do
     specify '登録に失敗すること' do
       @user.login_id = 'ほげ'
-      expect(@user.save).to be_false
+      expect(@user.save).to be_falsey
     end
   end
 end

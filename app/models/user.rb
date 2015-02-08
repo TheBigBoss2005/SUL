@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
       '<' => '&lt;',
       '>' => '&gt;' }
     tags.each do |key, val|
-      name.gsub!(key , val)
+      name.gsub!(key, val)
     end
   end
 end

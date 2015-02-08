@@ -13,6 +13,7 @@ AllCops:
     - bundle_bin/**/*
     - bin/**/*
     - vendor/**/*
+    - Guardfile
 
 ClassAndModuleChildren:
   Enabled: false
@@ -50,3 +51,12 @@ MethodLength:
 
 AsciiComments:
   Enabled: false
+
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Max: 9
+
+Metrics/AbcSize:
+  Max: 50

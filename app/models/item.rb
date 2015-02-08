@@ -19,7 +19,7 @@ class Item < ActiveRecord::Base
       '<' => '&lt;',
       '>' => '&gt;' }
     tags.each do |key, val|
-      memo.gsub!(key , val)
+      memo.gsub!(key, val)
     end
   end
 end

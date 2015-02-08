@@ -51,14 +51,14 @@ describe Payment do
   describe '精算完了の操作をした場合' do
     it 'はstatusがtrueに変更される' do
       subject.finished
-      expect(subject.status).to be_true
+      expect(subject.status).to be_truthy
     end
   end
 
   describe 'Paymentオブジェクトを複数取得した場合' do
     it 'はitem_idの降順かつparticipant_idの昇順に並ぶ' do
       Payment.destroy_all
-      payments = Array.new
+      payments = []
       [[1, 4], [1, 3], [1, 2], [2, 1]].each do |item_id, participant_id|
         payments.push(FG.create(:payment, item_id: item_id, participant_id: participant_id))
       end

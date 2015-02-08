@@ -2,8 +2,8 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
 require 'factory_girl'
+require 'devise'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -75,4 +75,5 @@ RSpec.configure do |config|
   # @see http://easyramble.com/request-spec-on-devise-login.html
   config.include Devise::TestHelpers, type: :controller
   config.include RequestHelpers, type: :request
+  config.infer_spec_type_from_file_location!
 end

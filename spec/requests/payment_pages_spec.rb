@@ -114,9 +114,7 @@ describe 'PaymentPages' do
 
     describe '支払が存在しないとき' do
       before do
-        Payment.all.each do |payment|
-          payment.destroy
-        end
+        Payment.all.each(&:destroy)
         visit payments_path
       end
 
@@ -174,8 +172,7 @@ describe 'PaymentPages' do
       end
 
       it '支払一覧画面から遷移しない' do
-        pending 'BOSSと連携する'
-        # expect(page).to have_title('支払一覧')
+        expect(page).to have_title('支払一覧')
       end
     end
 
