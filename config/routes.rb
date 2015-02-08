@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # devise_for :users
   devise_for :users, only: [:session, :registrations] do
     get '/sign_in', to: 'devise/sessions#new', as: :new_user_session
@@ -9,12 +10,16 @@ Rails.application.routes.draw do
   # match '/', to: 'top#index', via: 'get', as: 'root_path'
   root 'top#index'
 
-  resources :payments, only: %w(index destroy)
+  resources :payments, only: %w(index destroy) do
+    collection do
+      post 'confirm'
+      delete 'bulk_destroy'
+    end
+  end
+
   resources :events do
     resources :items
   end
-
-  delete '/payments/bulk_destroy', to: 'payments#bulk_destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
