@@ -45,7 +45,6 @@ describe Item do
   end
 
   describe Item, '#memoに含まれる文字が' do
-
     describe "'<','>'以外の場合" do
       %w(A あ 0 - = / _ \\ " ').each do |w|
         describe "例:#{w}'" do
@@ -112,7 +111,7 @@ describe Item do
   describe 'Itemオブジェクトを複数取得した場合' do
     it 'はidの降順に並ぶ' do
       Item.destroy_all
-      items = Array.new
+      items = []
       3.times { items.push(FG.create(:item, event_id: 1, user_id: 1, price: 1)) }
       expect(Item.all).to eq(items.reverse)
     end

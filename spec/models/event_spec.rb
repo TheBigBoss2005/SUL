@@ -54,9 +54,7 @@ describe Event do
   end
 
   %w(name memo).each do |column_name|
-
     describe Event, "##{column_name}に含まれる文字が" do
-
       describe "'<','>'以外の場合" do
         %w(A あ 0 - = / _ \\ " ').each do |w|
           describe "例:'#{w}'" do
@@ -140,7 +138,7 @@ describe Event do
   describe 'Eventオブジェクトを複数取得した場合' do
     it 'はidの降順に並ぶ' do
       Event.destroy_all
-      events = Array.new
+      events = []
       3.times { events.push(FG.create(:event, name: 'fuga')) }
       expect(Event.all).to eq(events.reverse)
     end

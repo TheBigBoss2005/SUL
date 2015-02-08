@@ -3,7 +3,7 @@ guard :rubocop do
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
-guard 'spring', :rspec_cli => '--color' do
+guard :rspec, cmd:'spring rspec' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^spec/spec_helper\.rb$})                   { |m| 'spec' }
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }

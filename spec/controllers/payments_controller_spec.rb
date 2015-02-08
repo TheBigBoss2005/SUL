@@ -13,7 +13,6 @@ describe PaymentsController do
 
     part3 = FG.create(:participant, user: FG.create(:user), event: @event)
     @pay3 = FG.create(:payment, participant: part3, item: item, status: true)
-
   end
 
   describe '精算確認' do
@@ -35,8 +34,8 @@ describe PaymentsController do
 
         delete :destroy, params
 
-        expect(Payment.find(@pay1).status).to be_true
-        expect(Payment.find(@pay2).status).to be_false
+        expect(Payment.find(@pay1.id).status).to be_truthy
+        expect(Payment.find(@pay2.id).status).to be_falsey
       end
     end
   end
@@ -48,8 +47,8 @@ describe PaymentsController do
 
         delete :bulk_destroy, params
 
-        expect(Payment.find(@pay1).status).to be_true
-        expect(Payment.find(@pay2).status).to be_true
+        expect(Payment.find(@pay1.id).status).to be_truthy
+        expect(Payment.find(@pay2.id).status).to be_truthy
         expect(flash[:success]).to be
       end
     end
@@ -60,8 +59,8 @@ describe PaymentsController do
 
         delete :bulk_destroy, params
 
-        expect(Payment.find(@pay1).status).to be_false
-        expect(Payment.find(@pay2).status).to be_false
+        expect(Payment.find(@pay1.id).status).to be_falsey
+        expect(Payment.find(@pay2.id).status).to be_falsey
         expect(flash[:error]).to be
       end
     end

@@ -88,7 +88,6 @@ describe 'EventPages' do
       it 'はログインページに遷移する' do
         expect(page).to have_content('Welcome to SUL')
       end
-
     end
 
     describe '有効な登録内容のとき' do

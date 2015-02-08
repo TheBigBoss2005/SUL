@@ -39,7 +39,7 @@ class PaymentsController < ApplicationController
   def bulk_destroy
     payments = Payment.where(id: params[:payment_ids])
     fail if payments.empty?
-    payments.each { |payment| payment.finished }
+    payments.each(&:finished)
     flash[:success] = '精算が完了しました！'
     redirect_to payments_path
   rescue
